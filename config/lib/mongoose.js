@@ -24,8 +24,8 @@ module.exports.loadModels = function (callback) {
 module.exports.connect = function (cb) {
   var _this = this;
 
-  var thisEnv = 'DEV';
-  // var thisEnv = 'TEST';
+  //var thisEnv = 'DEV';
+  var thisEnv = 'TEST';
 
   var getVar = deasync(function (url, cb) {
     var userAgent = { 'Client-Token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyaWQiOjQ1MiwidHMiOjE0Nzc5Njg5NDg1NzN9.y3-LATwYKtY8Hg43VYLHDeQyH374Gs_1O31jTkDAdfg', 'Context': 'SalesDemos;' + thisEnv + ';MEAN-AWS;MongoReplicaMaster', 'Application-Name': 'MEAN', 'Client-Version': 'v1.5' };
