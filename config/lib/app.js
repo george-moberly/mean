@@ -4,6 +4,7 @@
  * Module dependencies.
  */
 var config = require('../config'),
+  confighub = require('./confighub'),
   mongoose = require('./mongoose'),
   express = require('./express'),
   chalk = require('chalk'),
@@ -20,11 +21,12 @@ function seedDB() {
 mongoose.loadModels(seedDB);
 
 module.exports.init = function init(callback) {
-  mongoose.connect(function (db) {
-    // Initialize express
-    var app = express.init(db);
-    if (callback) callback(app, db, config);
-
+  confighub.getMongoMaster(function (ch) {
+    var db = mongoose.connect(config.db.uri, config.db.options, function (db) {
+      // Initialize express
+      var app = express.init(db);
+      if (callback) callback(app, db, config);
+    });
   });
 };
 
