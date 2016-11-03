@@ -2,6 +2,23 @@
 
 set -x
 
+wflag=off
+mflag=off
+filename=
+while getopts wmf: opt
+do
+    case "$opt" in
+      w)  wflag=on;;
+      m)  mflag=on;;
+      f)  filename="$OPTARG";;
+      \?)		# unknown flag
+      	  echo >&2 \
+	  "usage: $0 [-w] [-m] [-f filename] [file ...]"
+	  exit 1;;
+    esac
+done
+shift `expr $OPTIND - 1`
+
 # copy latest templates to S3 (the mongo one is too big to work as a local file)
 #
 aws s3 cp MongoDB-VPC.template s3://test-gjm/MongoDB-VPC.template
@@ -9,6 +26,11 @@ aws s3 cp VPC_AutoScaling_and_ElasticLoadBalancer.template s3://test-gjm/VPC_Aut
 
 # run the mongo cluster (includes a VPN)
 #
+if [ $mflag eq "on" ]
+then
+  aws cloudformation delete-stack --stack-name MongoCluster
+  aws cloudformation wait stack-delete-complete --stack-name MongoCluster
+fi
 aws cloudformation create-stack --capabilities CAPABILITY_IAM --stack-name MongoCluster --template-url http://s3.amazonaws.com/test-gjm/MongoDB-VPC.template --parameters ParameterKey=AvailabilityZone0,ParameterValue=us-east-1a ParameterKey=AvailabilityZone1,ParameterValue=us-east-1c ParameterKey=AvailabilityZone2,ParameterValue=us-east-1d ParameterKey=ClusterReplicaSetCount,ParameterValue=3 ParameterKey=ClusterShardCount,ParameterValue=1 ParameterKey=KeyName,ParameterValue=key ParameterKey=NodeInstanceType,ParameterValue=m3.medium ParameterKey=RemoteAccessCIDR,ParameterValue=0.0.0.0/0 ParameterKey=ShardsPerNode,ParameterValue=0 ParameterKey=VolumeSize,ParameterValue=16
 
 #-> example output
@@ -34,6 +56,11 @@ aws cloudformation list-stack-resources --stack-name MongoCluster | tee mongo_re
 
 # add the ASG, ELB, and web instnances into the public subnet
 #
+if [ $wflag eq "on" ]
+then
+  aws cloudformation delete-stack --stack-name WebCluster
+  aws cloudformation wait stack-delete-complete --stack-name WebCluster
+fi
 aws cloudformation create-stack --capabilities CAPABILITY_IAM --stack-name WebCluster --template-url http://s3.amazonaws.com/test-gjm/VPC_AutoScaling_and_ElasticLoadBalancer.template --parameters ParameterKey=AZs,ParameterValue=us-east-1a ParameterKey=InstanceCount,ParameterValue=2 ParameterKey=InstanceType,ParameterValue=t2.medium ParameterKey=KeyName,ParameterValue=key ParameterKey=Subnets,ParameterValue=`cat subnet.txt` ParameterKey=VpcId,ParameterValue=`cat vpc.txt`
 
 # stack-update-complete ??
