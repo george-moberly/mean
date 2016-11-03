@@ -48,6 +48,7 @@ aws cloudformation wait stack-create-complete --stack-name MongoCluster
 aws cloudformation list-stack-resources --stack-name MongoCluster | tee mongo_resources.json | perl -f get_instances.pl | tee mongo_instances.txt
 
 MONGO_STACK_ID=`aws cloudformation describe-stacks --stack-name MongoCluster | grep StackId | awk '{print $2;}' | sed 's/\"//g' | sed 's/\,//g'`
+echo "MONGO_STACK_ID: $MONGO_STACK_ID"
 
 # these are the subnets in use
 #
@@ -77,6 +78,7 @@ aws cloudformation wait stack-create-complete --stack-name WebCluster
 aws cloudformation list-stack-resources --stack-name WebCluster | tee web_resources.json | perl -f get_instances.pl | tee web_instances.txt
 
 WEB_STACK_ID=`aws cloudformation describe-stacks --stack-name WebCluster | grep StackId | awk '{print $2;}' | sed 's/\"//g' | sed 's/\,//g'`
+echo "WEB_STACK_ID: $WEB_STACK_ID"
 
 rm -f subnet.txt
 rm -f vpc.txt
