@@ -32,7 +32,16 @@ then
   aws cloudformation wait stack-delete-complete --stack-name MongoCluster
 fi
 
-aws cloudformation create-stack --capabilities CAPABILITY_IAM --stack-name MongoCluster --template-url http://s3.amazonaws.com/test-gjm/MongoDB-VPC.template --parameters ParameterKey=AvailabilityZone0,ParameterValue=us-east-1a ParameterKey=AvailabilityZone1,ParameterValue=us-east-1c ParameterKey=AvailabilityZone2,ParameterValue=us-east-1d ParameterKey=ClusterReplicaSetCount,ParameterValue=3 ParameterKey=ClusterShardCount,ParameterValue=1 ParameterKey=KeyName,ParameterValue=key ParameterKey=NodeInstanceType,ParameterValue=m3.medium ParameterKey=RemoteAccessCIDR,ParameterValue=0.0.0.0/0 ParameterKey=ShardsPerNode,ParameterValue=0 ParameterKey=VolumeSize,ParameterValue=16
+MONGO_STACK_ID=
+MONGO_STACK_ID=`aws cloudformation describe-stacks --stack-name MongoCluster | grep StackId | awk '{print $2;}' | sed 's/\"//g' | sed 's/\,//g'`
+echo "MONGO_STACK_ID: $MONGO_STACK_ID"
+if [ $MONGO_STACK_ID == "" ]
+then
+  echo "No MongoCluster in CloudFormation - creating one"
+  aws cloudformation create-stack --capabilities CAPABILITY_IAM --stack-name MongoCluster --template-url http://s3.amazonaws.com/test-gjm/MongoDB-VPC.template --parameters ParameterKey=AvailabilityZone0,ParameterValue=us-east-1a ParameterKey=AvailabilityZone1,ParameterValue=us-east-1c ParameterKey=AvailabilityZone2,ParameterValue=us-east-1d ParameterKey=ClusterReplicaSetCount,ParameterValue=3 ParameterKey=ClusterShardCount,ParameterValue=1 ParameterKey=KeyName,ParameterValue=key ParameterKey=NodeInstanceType,ParameterValue=m3.medium ParameterKey=RemoteAccessCIDR,ParameterValue=0.0.0.0/0 ParameterKey=ShardsPerNode,ParameterValue=0 ParameterKey=VolumeSize,ParameterValue=16
+else
+  echo "We already have a MongoCluster stack in CloudFormation - skipping CREATE"
+fi
 
 #-> example output
 # {
@@ -65,7 +74,18 @@ then
   aws cloudformation delete-stack --stack-name WebCluster
   aws cloudformation wait stack-delete-complete --stack-name WebCluster
 fi
-aws cloudformation create-stack --capabilities CAPABILITY_IAM --stack-name WebCluster --template-url http://s3.amazonaws.com/test-gjm/VPC_AutoScaling_and_ElasticLoadBalancer.template --parameters ParameterKey=AZs,ParameterValue=us-east-1a ParameterKey=InstanceCount,ParameterValue=2 ParameterKey=InstanceType,ParameterValue=t2.medium ParameterKey=KeyName,ParameterValue=key ParameterKey=Subnets,ParameterValue=`cat subnet.txt` ParameterKey=VpcId,ParameterValue=`cat vpc.txt`
+
+WEB_STACK_ID=
+WEB_STACK_ID=`aws cloudformation describe-stacks --stack-name WebCluster | grep StackId | awk '{print $2;}' | sed 's/\"//g' | sed 's/\,//g'`
+echo "WEB_STACK_ID: $WEB_STACK_ID"
+if [ $WEB_STACK_ID == "" ]
+then
+  echo "No WebCluster in CloudFormation - creating one"
+  aws cloudformation create-stack --capabilities CAPABILITY_IAM --stack-name WebCluster --template-url http://s3.amazonaws.com/test-gjm/VPC_AutoScaling_and_ElasticLoadBalancer.template --parameters ParameterKey=AZs,ParameterValue=us-east-1a ParameterKey=InstanceCount,ParameterValue=2 ParameterKey=InstanceType,ParameterValue=t2.medium ParameterKey=KeyName,ParameterValue=key ParameterKey=Subnets,ParameterValue=`cat subnet.txt` ParameterKey=VpcId,ParameterValue=`cat vpc.txt`
+else
+  echo "We already have a WebCluster stack in CloudFormation - skipping CREATE"
+fi
+
 
 # stack-update-complete ??
 aws cloudformation wait stack-create-complete --stack-name WebCluster
