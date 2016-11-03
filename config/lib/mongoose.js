@@ -5,7 +5,9 @@
  */
 var config = require('../config'),
   chalk = require('chalk'),
+  os = require('os'),
   path = require('path'),
+  fs = require('fs'),
   request = require('request'),
   deasync = require('deasync'),
   mongoose = require('mongoose');
@@ -24,11 +26,23 @@ module.exports.loadModels = function (callback) {
 module.exports.connect = function (cb) {
   var _this = this;
 
-  //var thisEnv = 'DEV';
-  var thisEnv = 'TEST';
+  var thisEnv = '';
+  var CH_API_Token = '';
 
   var getVar = deasync(function (url, cb) {
-    var userAgent = { 'Client-Token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyaWQiOjQ1MiwidHMiOjE0Nzc5Njg5NDg1NzN9.y3-LATwYKtY8Hg43VYLHDeQyH374Gs_1O31jTkDAdfg', 'Context': 'SalesDemos;' + thisEnv + ';MEAN-AWS;MongoReplicaMaster', 'Application-Name': 'MEAN', 'Client-Version': 'v1.5' };
+    CH_API_Token = fs.readFileSync('/opt/ch/ch_token.txt', 'utf8');
+    console.log ('ConfigHub API token is ' + CH_API_Token);
+    var osPlatform = os.type();
+    if (osPlatform === 'Darwin') {
+      thisEnv = 'DEV';
+    } else {
+      thisEnv = 'TEST';
+    }
+    console.log('this environment is ' + thisEnv);
+
+    var userAgent = {
+      'Client-Token': CH_API_Token ,'Context':'SalesDemos;' + thisEnv + ';MEAN-AWS;MongoReplicaMaster','Application-Name':'MEAN','Client-Version':'v1.5' };
+    console.log('userAgent: ' + JSON.stringify(userAgent));
     request({ url: url, headers: userAgent },
       function (err, resp, body) {
         if (err) { cb(err, null); }
