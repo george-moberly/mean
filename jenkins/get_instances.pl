@@ -27,9 +27,9 @@ while (<>) {
 			if (/.*PublicIpAddress\"\: \"(.+)\"/) {
 				$public_ip = $1;
 				open(NAT_SCRIPT, ">nat_ssh.sh");
-				print(NAT_SCRIPT, "scp -o StrictHostKeyChecking=no -i /opt/ch/key.pem /opt/ch/key.pem ec2-user\@${public_ip}:/tmp/\n");
-				print(NAT_SCRIPT, "ssh -i /opt/ch/key.pem ec2-user\@${public_ip} cd /tmp; chmod 400 key.pem");
-				print(NAT_SCRIPT, "ssh -i /opt/ch/key.pem ec2-user\@${public_ip}");
+				print(NAT_SCRIPT "scp -o StrictHostKeyChecking=no -i /opt/ch/key.pem /opt/ch/key.pem ec2-user\@${public_ip}:/tmp/\n");
+				print(NAT_SCRIPT "ssh -i /opt/ch/key.pem ec2-user\@${public_ip} cd /tmp; chmod 400 key.pem");
+				print(NAT_SCRIPT "ssh -i /opt/ch/key.pem ec2-user\@${public_ip}");
 				close(NAT_SCRIPT);
 			}
 		}
