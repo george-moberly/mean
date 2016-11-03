@@ -9,7 +9,7 @@ aws s3 cp VPC_AutoScaling_and_ElasticLoadBalancer.template s3://test-gjm/VPC_Aut
 
 # run the mongo cluster (includes a VPN)
 #
-aws cloudformation create-stack --capabilities CAPABILITY_IAM --stack-name MongoCluster --template-url http://s3.amazonaws.com/test-gjm/MongoDB-VPC.template --parameters ParameterKey=AvailabilityZone0,ParameterValue=us-east-1a ParameterKey=AvailabilityZone1,ParameterValue=us-east-1c ParameterKey=AvailabilityZone2,ParameterValue=us-east-1d ParameterKey=ClusterReplicaSetCount,ParameterValue=3 ParameterKey=ClusterShardCount,ParameterValue=1 ParameterKey=KeyName,ParameterValue=george ParameterKey=NodeInstanceType,ParameterValue=m3.medium ParameterKey=RemoteAccessCIDR,ParameterValue=0.0.0.0/0 ParameterKey=ShardsPerNode,ParameterValue=0 ParameterKey=VolumeSize,ParameterValue=16
+aws cloudformation create-stack --capabilities CAPABILITY_IAM --stack-name MongoCluster --template-url http://s3.amazonaws.com/test-gjm/MongoDB-VPC.template --parameters ParameterKey=AvailabilityZone0,ParameterValue=us-east-2a ParameterKey=AvailabilityZone1,ParameterValue=us-east-2b ParameterKey=AvailabilityZone2,ParameterValue=us-east-2c ParameterKey=ClusterReplicaSetCount,ParameterValue=3 ParameterKey=ClusterShardCount,ParameterValue=1 ParameterKey=KeyName,ParameterValue=key ParameterKey=NodeInstanceType,ParameterValue=m3.medium ParameterKey=RemoteAccessCIDR,ParameterValue=0.0.0.0/0 ParameterKey=ShardsPerNode,ParameterValue=0 ParameterKey=VolumeSize,ParameterValue=16
 
 #-> example output
 # {
@@ -34,7 +34,7 @@ aws cloudformation list-stack-resources --stack-name MongoCluster | tee mongo_re
 
 # add the ASG, ELB, and web instnances into the public subnet
 #
-aws cloudformation create-stack --capabilities CAPABILITY_IAM --stack-name WebCluster --template-url http://s3.amazonaws.com/test-gjm/VPC_AutoScaling_and_ElasticLoadBalancer.template --parameters ParameterKey=AZs,ParameterValue=us-east-1a ParameterKey=InstanceCount,ParameterValue=2 ParameterKey=InstanceType,ParameterValue=t2.large ParameterKey=KeyName,ParameterValue=george ParameterKey=Subnets,ParameterValue=`cat subnet.txt` ParameterKey=VpcId,ParameterValue=`cat vpc.txt`
+aws cloudformation create-stack --capabilities CAPABILITY_IAM --stack-name WebCluster --template-url http://s3.amazonaws.com/test-gjm/VPC_AutoScaling_and_ElasticLoadBalancer.template --parameters ParameterKey=AZs,ParameterValue=us-east-2a ParameterKey=InstanceCount,ParameterValue=2 ParameterKey=InstanceType,ParameterValue=t2.medium ParameterKey=KeyName,ParameterValue=key ParameterKey=Subnets,ParameterValue=`cat subnet.txt` ParameterKey=VpcId,ParameterValue=`cat vpc.txt`
 
 # stack-update-complete ??
 aws cloudformation wait stack-create-complete --stack-name WebCluster
