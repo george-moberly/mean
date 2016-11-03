@@ -28,6 +28,8 @@ aws s3 cp VPC_AutoScaling_and_ElasticLoadBalancer.template s3://test-gjm/VPC_Aut
 #
 if [ $mflag == "on" ]
 then
+  aws cloudformation delete-stack --stack-name WebCluster
+  aws cloudformation wait stack-delete-complete --stack-name WebCluster
   aws cloudformation delete-stack --stack-name MongoCluster
   aws cloudformation wait stack-delete-complete --stack-name MongoCluster
 fi
