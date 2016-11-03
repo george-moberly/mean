@@ -673,7 +673,7 @@
                 "AWSNAT": "ami-4868ab25"
             },
             "us-east-2": {
-                "AMZNLINUX": "ami-71ca9114",
+                "AMZNLINUX": "ami-70ca9115",
                 "AWSNAT": "ami-8d5a00e8"
             },
             "us-west-1": {
