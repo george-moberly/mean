@@ -672,6 +672,10 @@
                 "AMZNLINUX": "ami-6869aa05",
                 "AWSNAT": "ami-4868ab25"
             },
+            "us-east-2": {
+                "AMZNLINUX": "ami-71ca9114",
+                "AWSNAT": "ami-8d5a00e8"
+            },
             "us-west-1": {
                 "AMZNLINUX": "ami-31490d51",
                 "AWSNAT": "ami-004b0f60"
