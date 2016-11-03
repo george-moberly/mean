@@ -119,6 +119,7 @@ for w in `cat web_instances.txt | egrep "^WebServerGroup" | awk '{print $NF}'`
 do
   echo $w
   scp -o StrictHostKeyChecking=no -i /opt/ch/key.pem mongodb-org-3.2.repo ec2-user\@$w:/tmp
+  ssh -i /opt/ch/key.pem ec2-user\@$w "mkdir /opt/ch"
   scp -o StrictHostKeyChecking=no -i /opt/ch/key.pem /opt/ch/ch_token.txt ec2-user\@$w:/opt/ch
   ssh -i /opt/ch/key.pem ec2-user\@$w "sudo su - root -c 'cp /tmp/mongodb-org-3.2.repo /etc/yum.repos.d/'"
   ssh -i /opt/ch/key.pem ec2-user\@$w "ls /etc/yum.repos.d/"
