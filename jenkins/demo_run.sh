@@ -26,7 +26,7 @@ aws s3 cp VPC_AutoScaling_and_ElasticLoadBalancer.template s3://test-gjm/VPC_Aut
 
 # run the mongo cluster (includes a VPN)
 #
-if [ $mflag eq "on" ]
+if [ $mflag == "on" ]
 then
   aws cloudformation delete-stack --stack-name MongoCluster
   aws cloudformation wait stack-delete-complete --stack-name MongoCluster
@@ -56,7 +56,7 @@ aws cloudformation list-stack-resources --stack-name MongoCluster | tee mongo_re
 
 # add the ASG, ELB, and web instnances into the public subnet
 #
-if [ $wflag eq "on" ]
+if [ $wflag == "on" ]
 then
   aws cloudformation delete-stack --stack-name WebCluster
   aws cloudformation wait stack-delete-complete --stack-name WebCluster
