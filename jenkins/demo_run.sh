@@ -31,6 +31,7 @@ then
   aws cloudformation delete-stack --stack-name MongoCluster
   aws cloudformation wait stack-delete-complete --stack-name MongoCluster
 fi
+
 aws cloudformation create-stack --capabilities CAPABILITY_IAM --stack-name MongoCluster --template-url http://s3.amazonaws.com/test-gjm/MongoDB-VPC.template --parameters ParameterKey=AvailabilityZone0,ParameterValue=us-east-1a ParameterKey=AvailabilityZone1,ParameterValue=us-east-1c ParameterKey=AvailabilityZone2,ParameterValue=us-east-1d ParameterKey=ClusterReplicaSetCount,ParameterValue=3 ParameterKey=ClusterShardCount,ParameterValue=1 ParameterKey=KeyName,ParameterValue=key ParameterKey=NodeInstanceType,ParameterValue=m3.medium ParameterKey=RemoteAccessCIDR,ParameterValue=0.0.0.0/0 ParameterKey=ShardsPerNode,ParameterValue=0 ParameterKey=VolumeSize,ParameterValue=16
 
 #-> example output
@@ -45,6 +46,8 @@ aws cloudformation create-stack --capabilities CAPABILITY_IAM --stack-name Mongo
 aws cloudformation wait stack-create-complete --stack-name MongoCluster
 
 aws cloudformation list-stack-resources --stack-name MongoCluster | tee mongo_resources.json | perl -f get_instances.pl | tee mongo_instances.txt
+
+MONGO_STACK_ID=`aws cloudformation describe-stacks --stack-name MongoCluster | grep StackId | awk '{print $2;}' | sed 's/\"//g' | sed 's/\,//g'`
 
 # these are the subnets in use
 #
@@ -72,6 +75,8 @@ aws cloudformation wait stack-create-complete --stack-name WebCluster
 #}
 
 aws cloudformation list-stack-resources --stack-name WebCluster | tee web_resources.json | perl -f get_instances.pl | tee web_instances.txt
+
+WEB_STACK_ID=`aws cloudformation describe-stacks --stack-name WebCluster | grep StackId | awk '{print $2;}' | sed 's/\"//g' | sed 's/\,//g'`
 
 rm -f subnet.txt
 rm -f vpc.txt
