@@ -52,6 +52,7 @@ module.exports.connect = function (cb) {
 
   var myVar = getVar('https://api.confighub.com/rest/pull');
   var chProp = JSON.parse(myVar);
+  console.log('mongo URI was: ' + config.db.uri.toString());
   config.db.uri = chProp.properties.MongoHost.val;
   console.log(myVar);
   console.log('the mongo master will be connected at: ' + config.db.uri.toString());
