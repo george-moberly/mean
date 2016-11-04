@@ -50,12 +50,18 @@ module.exports.connect = function (cb) {
       });
   });
 
+  console.log('mongo URI was: ' + config.db.uri.toString());
+  // expected return...
+  // mongodb://localhost/mean-dev
+
+  // get the mongo host value from ConfigHub
+  //
   var myVar = getVar('https://api.confighub.com/rest/pull');
   var chProp = JSON.parse(myVar);
-  console.log('mongo URI was: ' + config.db.uri.toString());
-  config.db.uri = chProp.properties.MongoHost.val;
-  console.log(myVar);
-  console.log('the mongo master will be connected at: ' + config.db.uri.toString());
+  console.log('got this value from ConfigHub: ' + myVar);
+
+  config.db.uri = 'mongodb://' + chProp.properties.MongoHost.val + '/mean-dev';
+  console.log('mongo URI is now: ' + config.db.uri.toString());
 
   var db = mongoose.connect(config.db.uri, config.db.options, function (err) {
     // Log Error
