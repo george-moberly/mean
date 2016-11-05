@@ -4,16 +4,18 @@ set -x
 
 wflag=off
 mflag=off
+kflag=off
 filename=
-while getopts wmf: opt
+while getopts kwmf: opt
 do
     case "$opt" in
       w)  wflag=on;;
+      k)  kflag=on;;
       m)  mflag=on;;
       f)  filename="$OPTARG";;
       \?)		# unknown flag
       	  echo >&2 \
-	  "usage: $0 [-w] [-m] [-f filename] [file ...]"
+	  "usage: $0 [-k] [-w] [-m] [-f filename] [file ...]"
 	  exit 1;;
     esac
 done
@@ -42,6 +44,12 @@ then
   aws cloudformation wait stack-delete-complete --stack-name WebCluster
   aws cloudformation delete-stack --stack-name MongoCluster
   aws cloudformation wait stack-delete-complete --stack-name MongoCluster
+fi
+
+if [ $kflag == "on" ]
+then
+  echo "-k is active. Killed the stacks and exiting now."
+  exit 0
 fi
 
 MONGO_STACK_ID=
