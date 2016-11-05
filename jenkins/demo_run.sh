@@ -137,6 +137,13 @@ aws cloudformation describe-stacks --stack-name MongoCluster > cf/cf_mongo_clust
 # get the primary mongo node
 export MONGO_PRIMARY=`cat cf/mongo_instances.txt | grep PrimaryReplicaNode00NodeInstanceGP2 | awk '{print $NF}'`
 
+echo "### NAT Server..." > cf/ssh.txt
+echo ssh -i $AWS_PEM_2 ec2-user@`cat "$DEMO_DIR/cf/mongo_instances.txt" | grep NATInstance | awk '{print $NF}'` >> cf/ssh.txt
+echo "### Web1 Server..." >> cf/ssh.txt
+echo ssh -i $AWS_PEM_2 ec2-user@`cat "$DEMO_DIR/cf/web_instances.txt" | grep WebServerGroup1 | awk '{print $NF}'` >> cf/ssh.txt
+echo "### Web2 Server..." >> cf/ssh.txt
+echo ssh -i $AWS_PEM_2 ec2-user@`cat "$DEMO_DIR/cf/web_instances.txt" | grep WebServerGroup2 | awk '{print $NF}'` >> cf/ssh.txt
+
 # all this needs to move to the webcluster CF template...
 #
 for w in `cat cf/web_instances.txt | egrep "^WebServerGroup" | awk '{print $NF}'`

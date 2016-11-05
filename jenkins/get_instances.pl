@@ -92,11 +92,14 @@ while (<>) {
 		$nid =~ s/\".*//;
 		print "nid: $nid\n";
 
+		$number = 1;
+
 		open(ASG, "aws autoscaling describe-auto-scaling-groups --auto-scaling-group-name $iid |");
 		while(<ASG>) {
 
 			$private_ip = "";
 			$public_ip = "";
+
 			#print;
 			if (/.*InstanceId\"\: \"(.+)\"/) {
 				$instance_id = $1;
@@ -111,7 +114,8 @@ while (<>) {
 						$public_ip = $1;
 					}
 				}
-				print "$nid: $iid $private_ip $public_ip\n";
+				print "${nid}${number}: $iid $private_ip $public_ip\n";
+				$number++;
 			}
 		}
 	}
