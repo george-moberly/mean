@@ -24,6 +24,16 @@ shift `expr $OPTIND - 1`
 aws s3 cp MongoDB-VPC.template s3://test-gjm/MongoDB-VPC.template
 aws s3 cp VPC_AutoScaling_and_ElasticLoadBalancer.template s3://test-gjm/VPC_AutoScaling_and_ElasticLoadBalancer.template
 
+if [ -d "cf" ]
+then
+  rm -rf cf
+fi
+
+if [ ! -d "cf" ]
+then
+  mkdir cf
+fi
+
 # run the mongo cluster (includes a VPN)
 #
 if [ $mflag == "on" ]
@@ -56,12 +66,12 @@ fi
 
 aws cloudformation wait stack-create-complete --stack-name MongoCluster
 
-aws cloudformation list-stack-resources --stack-name MongoCluster | tee mongo_resources.json | perl -f get_instances.pl | tee mongo_instances.txt
+aws cloudformation list-stack-resources --stack-name MongoCluster | tee cf/mongo_resources.json | perl -f get_instances.pl | tee cf/mongo_instances.txt
 
 MONGO_STACK_ID=`aws cloudformation describe-stacks --stack-name MongoCluster | grep StackId | awk '{print $2;}' | sed 's/\"//g' | sed 's/\,//g'`
 echo "MONGO_STACK_ID: $MONGO_STACK_ID"
 
-echo "MongoCluster: $MONGO_STACK_ID" >> cf_id.txt
+echo "MongoCluster: $MONGO_STACK_ID" > cf/cf_id.txt
 
 # these are the subnets in use
 #
@@ -85,7 +95,7 @@ echo "WEB_STACK_ID: $WEB_STACK_ID"
 if [ "$WEB_STACK_ID" == "" ]
 then
   echo "No WebCluster in CloudFormation - creating one"
-  aws cloudformation create-stack --capabilities CAPABILITY_IAM --stack-name WebCluster --template-url http://s3.amazonaws.com/test-gjm/VPC_AutoScaling_and_ElasticLoadBalancer.template --parameters ParameterKey=AZs,ParameterValue=us-east-1a ParameterKey=InstanceCount,ParameterValue=2 ParameterKey=InstanceType,ParameterValue=t2.medium ParameterKey=KeyName,ParameterValue=key ParameterKey=Subnets,ParameterValue=`cat subnet.txt` ParameterKey=VpcId,ParameterValue=`cat vpc.txt`
+  aws cloudformation create-stack --capabilities CAPABILITY_IAM --stack-name WebCluster --template-url http://s3.amazonaws.com/test-gjm/VPC_AutoScaling_and_ElasticLoadBalancer.template --parameters ParameterKey=AZs,ParameterValue=us-east-1a ParameterKey=InstanceCount,ParameterValue=2 ParameterKey=InstanceType,ParameterValue=t2.medium ParameterKey=KeyName,ParameterValue=key ParameterKey=Subnets,ParameterValue=`cat cf/subnet.txt` ParameterKey=VpcId,ParameterValue=`cat cf/vpc.txt`
 else
   echo "We already have a WebCluster stack in CloudFormation - skipping CREATE"
 fi
@@ -98,15 +108,18 @@ aws cloudformation wait stack-create-complete --stack-name WebCluster
 #    "StackId": "arn:aws:cloudformation:us-east-1:530342348278:stack/WebCluster/2084c760-9f33-11e6-8aa1-50d5ca632656"
 #}
 
-aws cloudformation list-stack-resources --stack-name WebCluster | tee web_resources.json | perl -f get_instances.pl | tee web_instances.txt
+aws cloudformation list-stack-resources --stack-name WebCluster | tee cf/web_resources.json | perl -f get_instances.pl | tee cf/web_instances.txt
 
 WEB_STACK_ID=`aws cloudformation describe-stacks --stack-name WebCluster | grep StackId | awk '{print $2;}' | sed 's/\"//g' | sed 's/\,//g'`
 echo "WEB_STACK_ID: $WEB_STACK_ID"
 
-echo "WebCluster: $WEB_STACK_ID" >> cf_id.txt
+echo "WebCluster: $WEB_STACK_ID" >> cf/cf_id.txt
 
-rm -f subnet.txt
-rm -f vpc.txt
+#rm -f subnet.txt
+#rm -f vpc.txt
+
+aws cloudformation describe-stacks --stack-name WebCluster > cf/cf_web_cluster.json
+aws cloudformation describe-stacks --stack-name MongoCluster > cf/cf_mongo_cluster.json
 
 # steps to configure the web servers
 # install mongo client
@@ -114,11 +127,11 @@ rm -f vpc.txt
 # doc sez but looks like CF template takes care of this -> The default /etc/mongod.conf configuration file supplied by the packages have bind_ip set to 127.0.0.1 by default. Modify this setting as needed for your environment before initializing a replica set.
 
 # get the primary mongo node
-export MONGO_PRIMARY=`cat mongo_instances.txt | grep PrimaryReplicaNode00NodeInstanceGP2 | awk '{print $NF}'`
+export MONGO_PRIMARY=`cat cf/mongo_instances.txt | grep PrimaryReplicaNode00NodeInstanceGP2 | awk '{print $NF}'`
 
 # all this needs to move to the webcluster CF template...
 #
-for w in `cat web_instances.txt | egrep "^WebServerGroup" | awk '{print $NF}'`
+for w in `cat cf/web_instances.txt | egrep "^WebServerGroup" | awk '{print $NF}'`
 do
   echo $w
   scp -o StrictHostKeyChecking=no -i /opt/ch/key.pem mongodb-org-3.2.repo ec2-user\@$w:/tmp

@@ -26,7 +26,7 @@ while (<>) {
 			}
 			if (/.*PublicIpAddress\"\: \"(.+)\"/) {
 				$public_ip = $1;
-				open(NAT_SCRIPT, ">nat_ssh.sh");
+				open(NAT_SCRIPT, ">cf/nat_ssh.sh");
 				print(NAT_SCRIPT "scp -o StrictHostKeyChecking=no -i /opt/ch/key.pem /opt/ch/key.pem ec2-user\@${public_ip}:/tmp\n");
 				print(NAT_SCRIPT "ssh -i /opt/ch/key.pem ec2-user\@${public_ip} cd /tmp; chmod 400 key.pem\n");
 				print(NAT_SCRIPT "ssh -i /opt/ch/key.pem ec2-user\@${public_ip}\n");
@@ -52,7 +52,7 @@ while (<>) {
 		#print "$iid: $nid\n";
 		if ($nid eq "DMZSubnet") {
 			print "subnet for WebCluster is: $iid\n";
-			open(SUBNET, ">subnet.txt");
+			open(SUBNET, ">cf/subnet.txt");
 			print(SUBNET "$iid");
 			close(SUBNET);
 		}
@@ -73,7 +73,7 @@ while (<>) {
 		$nid =~ s/\".*//;
 		#print "$iid: $nid\n";
 		print "VPC for WebCluster is: $iid\n";
-		open(VPC, ">vpc.txt");
+		open(VPC, ">cf/vpc.txt");
 		print(VPC "$iid");
 		close(VPC);
 	}
