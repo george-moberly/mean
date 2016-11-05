@@ -61,6 +61,8 @@ aws cloudformation list-stack-resources --stack-name MongoCluster | tee mongo_re
 MONGO_STACK_ID=`aws cloudformation describe-stacks --stack-name MongoCluster | grep StackId | awk '{print $2;}' | sed 's/\"//g' | sed 's/\,//g'`
 echo "MONGO_STACK_ID: $MONGO_STACK_ID"
 
+echo "MongoCluster: $MONGO_STACK_ID" >> cf_id.txt
+
 # these are the subnets in use
 #
 #VPC CIDR: 10.0.0.0/16
@@ -88,7 +90,6 @@ else
   echo "We already have a WebCluster stack in CloudFormation - skipping CREATE"
 fi
 
-
 # stack-update-complete ??
 aws cloudformation wait stack-create-complete --stack-name WebCluster
 
@@ -101,6 +102,8 @@ aws cloudformation list-stack-resources --stack-name WebCluster | tee web_resour
 
 WEB_STACK_ID=`aws cloudformation describe-stacks --stack-name WebCluster | grep StackId | awk '{print $2;}' | sed 's/\"//g' | sed 's/\,//g'`
 echo "WEB_STACK_ID: $WEB_STACK_ID"
+
+echo "WebCluster: $WEB_STACK_ID" >> cf_id.txt
 
 rm -f subnet.txt
 rm -f vpc.txt
