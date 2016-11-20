@@ -38,9 +38,7 @@ module.exports.connect = function (cb) {
     } else {
       thisEnv = 'TEST';
     }
-
-    thisEnv = 'TEST';
-
+    
     console.log('this environment is ' + thisEnv);
 
     var userAgent = {
