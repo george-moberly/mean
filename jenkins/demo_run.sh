@@ -36,14 +36,33 @@ then
   mkdir cf
 fi
 
+#export MONGO_STACK_NAME=MongoCluster
+#export WEB_STACK_NAME=WebCluster
+
+curl -i https://api.confighub.com/rest/pull \
+     -H "Context: SalesDemos;TEST;MEAN-AWS;AWS-us-east-1"                \
+     -H "Content-Type: application/json" \
+     -H "Client-Token: `cat /opt/ch/ch_token.txt`" \
+     -H "Client-Version: v1.5" \
+     -H "Application-Name: MEAN" \
+     -H "Pretty: true" > ch_inputs.json
+
+cat ch_inputs.json | perl -f input_vars.pl | tee inputs.env
+
+. inputs.env
+
+echo "Inputs from ConfigHub are:"
+cat inputs.env
+rm -f inputs.env
+
 # run the mongo cluster (includes a VPN)
 #
 if [ $mflag == "on" ]
 then
-  aws cloudformation delete-stack --stack-name WebCluster
-  aws cloudformation wait stack-delete-complete --stack-name WebCluster
-  aws cloudformation delete-stack --stack-name MongoCluster
-  aws cloudformation wait stack-delete-complete --stack-name MongoCluster
+  aws cloudformation delete-stack --stack-name $WEB_STACK_NAME
+  aws cloudformation wait stack-delete-complete --stack-name $WEB_STACK_NAME
+  aws cloudformation delete-stack --stack-name $MONGO_STACK_NAME
+  aws cloudformation wait stack-delete-complete --stack-name $MONGO_STACK_NAME
 fi
 
 if [ $kflag == "on" ]
@@ -52,13 +71,36 @@ then
   exit 0
 fi
 
+#export MONGO_AZ1=us-east-1a
+#export MONGO_AZ2=us-east-1c
+#export MONGO_AZ3=us-east-1d
+#export MONGO_REPLICA_SET_COUNT=3
+#export MONGO_SHARD_COUNT=1
+#export MONGO_AWS_KEY=key
+#export MONGO_INST_SIZE=m3.medium
+#export MONGO_ACCESS_CIDR=0.0.0.0/0
+#export MONGO_SHARDS_PER_NODE=0
+#export MONGO_VOLUME_SIZE=16
+
 MONGO_STACK_ID=
-MONGO_STACK_ID=`aws cloudformation describe-stacks --stack-name MongoCluster | grep StackId | awk '{print $2;}' | sed 's/\"//g' | sed 's/\,//g'`
+MONGO_STACK_ID=`aws cloudformation describe-stacks --stack-name $MONGO_STACK_NAME | grep StackId | awk '{print $2;}' | sed 's/\"//g' | sed 's/\,//g'`
 echo "MONGO_STACK_ID: $MONGO_STACK_ID"
 if [ "$MONGO_STACK_ID" == "" ]
 then
   echo "No MongoCluster in CloudFormation - creating one"
-  aws cloudformation create-stack --capabilities CAPABILITY_IAM --stack-name MongoCluster --template-url http://s3.amazonaws.com/test-gjm/MongoDB-VPC.template --parameters ParameterKey=AvailabilityZone0,ParameterValue=us-east-1a ParameterKey=AvailabilityZone1,ParameterValue=us-east-1c ParameterKey=AvailabilityZone2,ParameterValue=us-east-1d ParameterKey=ClusterReplicaSetCount,ParameterValue=3 ParameterKey=ClusterShardCount,ParameterValue=1 ParameterKey=KeyName,ParameterValue=key ParameterKey=NodeInstanceType,ParameterValue=m3.medium ParameterKey=RemoteAccessCIDR,ParameterValue=0.0.0.0/0 ParameterKey=ShardsPerNode,ParameterValue=0 ParameterKey=VolumeSize,ParameterValue=16
+  aws cloudformation create-stack --capabilities CAPABILITY_IAM \
+  --stack-name $MONGO_STACK_NAME \
+  --template-url http://s3.amazonaws.com/test-gjm/MongoDB-VPC.template \
+  --parameters ParameterKey=AvailabilityZone0,ParameterValue=$MONGO_AZ1 \
+  ParameterKey=AvailabilityZone1,ParameterValue=$MONGO_AZ2 \
+  ParameterKey=AvailabilityZone2,ParameterValue=$MONGO_AZ3 \
+  ParameterKey=ClusterReplicaSetCount,ParameterValue=$MONGO_REPLICA_SET_COUNT \
+  ParameterKey=ClusterShardCount,ParameterValue=$MONGO_SHARD_COUNT \
+  ParameterKey=KeyName,ParameterValue=$MONGO_AWS_KEY \
+  ParameterKey=NodeInstanceType,ParameterValue=$MONGO_INST_SIZE \
+  ParameterKey=RemoteAccessCIDR,ParameterValue=$MONGO_ACCESS_CIDR \
+  ParameterKey=ShardsPerNode,ParameterValue=$MONGO_SHARDS_PER_NODE \
+  ParameterKey=VolumeSize,ParameterValue=$MONGO_VOLUME_SIZE
 else
   echo "We already have a MongoCluster stack in CloudFormation - skipping CREATE"
 fi
@@ -72,11 +114,11 @@ fi
 # the VPC and public subnet id's are written out to files as a side effect of running this (consumed by the web stuff)
 #
 
-aws cloudformation wait stack-create-complete --stack-name MongoCluster
+aws cloudformation wait stack-create-complete --stack-name $MONGO_STACK_NAME
 
-aws cloudformation list-stack-resources --stack-name MongoCluster | tee cf/mongo_resources.json | perl -f get_instances.pl | tee cf/mongo_instances.txt
+aws cloudformation list-stack-resources --stack-name $MONGO_STACK_NAME | tee cf/mongo_resources.json | perl -f get_instances.pl | tee cf/mongo_instances.txt
 
-MONGO_STACK_ID=`aws cloudformation describe-stacks --stack-name MongoCluster | grep StackId | awk '{print $2;}' | sed 's/\"//g' | sed 's/\,//g'`
+MONGO_STACK_ID=`aws cloudformation describe-stacks --stack-name $MONGO_STACK_NAME | grep StackId | awk '{print $2;}' | sed 's/\"//g' | sed 's/\,//g'`
 echo "MONGO_STACK_ID: $MONGO_STACK_ID"
 
 echo "MongoCluster: $MONGO_STACK_ID" > cf/cf_id.txt
@@ -89,36 +131,74 @@ echo "MongoCluster: $MONGO_STACK_ID" > cf/cf_id.txt
 #PrimaryReplicaSubnet: 10.0.2.0/24
 #PublicSubnet: 10.0.1.0/24
 
+# MONGO_PRIMARY
+
+curl -i https://api.confighub.com/rest/push \
+     -H "Content-Type: application/json" \
+     -H "Client-Token: `cat /opt/ch/ch_token.txt`" \
+     -H "Client-Version: v1.5" \
+     -H "Application-Name: MEAN" \
+     -X POST -d "
+                    [
+                      {
+                        \"key\": \"MongoHost\",
+                        \"readme\": \"This is the Mongo Host IP of a Replica Set Primary\",
+                        \"deprecated\": false,
+                        \"vdt\": \"Text\",
+                        \"push\": true,
+                        \"securityGroup\": \"\",
+                        \"password\": \"\",
+                        \"values\": [
+                          {
+                            \"context\": \"SalesDemos;TEST;MEAN-AWS;MongoReplicaMaster\",
+                            \"value\": \"$MONGO_PRIMARY\",
+                            \"active\": true
+                          }
+                        ]
+                      }
+                    ]
+                "
+                
 # add the ASG, ELB, and web instnances into the public subnet
 #
 if [ $wflag == "on" ]
 then
-  aws cloudformation delete-stack --stack-name WebCluster
-  aws cloudformation wait stack-delete-complete --stack-name WebCluster
+  aws cloudformation delete-stack --stack-name $WEB_STACK_NAME
+  aws cloudformation wait stack-delete-complete --stack-name $WEB_STACK_NAME
 fi
 
+#export WEB_INSTANCE_COUNT=2
+#export WEB_INSTANCE_SIZE=t2.medium
+
 WEB_STACK_ID=
-WEB_STACK_ID=`aws cloudformation describe-stacks --stack-name WebCluster | grep StackId | awk '{print $2;}' | sed 's/\"//g' | sed 's/\,//g'`
+WEB_STACK_ID=`aws cloudformation describe-stacks --stack-name $WEB_STACK_NAME | grep StackId | awk '{print $2;}' | sed 's/\"//g' | sed 's/\,//g'`
 echo "WEB_STACK_ID: $WEB_STACK_ID"
 if [ "$WEB_STACK_ID" == "" ]
 then
   echo "No WebCluster in CloudFormation - creating one"
-  aws cloudformation create-stack --capabilities CAPABILITY_IAM --stack-name WebCluster --template-url http://s3.amazonaws.com/test-gjm/VPC_AutoScaling_and_ElasticLoadBalancer.template --parameters ParameterKey=AZs,ParameterValue=us-east-1a ParameterKey=InstanceCount,ParameterValue=2 ParameterKey=InstanceType,ParameterValue=t2.medium ParameterKey=KeyName,ParameterValue=key ParameterKey=Subnets,ParameterValue=`cat cf/subnet.txt` ParameterKey=VpcId,ParameterValue=`cat cf/vpc.txt`
+  aws cloudformation create-stack --capabilities CAPABILITY_IAM --stack-name $WEB_STACK_NAME \
+  --template-url http://s3.amazonaws.com/test-gjm/VPC_AutoScaling_and_ElasticLoadBalancer.template \
+  --parameters ParameterKey=AZs,ParameterValue=$MONGO_AZ1 \
+  ParameterKey=InstanceCount,ParameterValue=$WEB_INSTANCE_COUNT \
+  ParameterKey=InstanceType,ParameterValue=$WEB_INSTANCE_SIZE \
+  ParameterKey=KeyName,ParameterValue=MONGO_AWS_KEY \
+  ParameterKey=Subnets,ParameterValue=`cat cf/subnet.txt` \
+  ParameterKey=VpcId,ParameterValue=`cat cf/vpc.txt`
 else
   echo "We already have a WebCluster stack in CloudFormation - skipping CREATE"
 fi
 
 # stack-update-complete ??
-aws cloudformation wait stack-create-complete --stack-name WebCluster
+aws cloudformation wait stack-create-complete --stack-name $WEB_STACK_NAME
 
 #-> example output
 # {
 #    "StackId": "arn:aws:cloudformation:us-east-1:530342348278:stack/WebCluster/2084c760-9f33-11e6-8aa1-50d5ca632656"
 #}
 
-aws cloudformation list-stack-resources --stack-name WebCluster | tee cf/web_resources.json | perl -f get_instances.pl | tee cf/web_instances.txt
+aws cloudformation list-stack-resources --stack-name $WEB_STACK_NAME | tee cf/web_resources.json | perl -f get_instances.pl | tee cf/web_instances.txt
 
-WEB_STACK_ID=`aws cloudformation describe-stacks --stack-name WebCluster | grep StackId | awk '{print $2;}' | sed 's/\"//g' | sed 's/\,//g'`
+WEB_STACK_ID=`aws cloudformation describe-stacks --stack-name $WEB_STACK_NAME | grep StackId | awk '{print $2;}' | sed 's/\"//g' | sed 's/\,//g'`
 echo "WEB_STACK_ID: $WEB_STACK_ID"
 
 echo "WebCluster: $WEB_STACK_ID" >> cf/cf_id.txt
@@ -126,8 +206,8 @@ echo "WebCluster: $WEB_STACK_ID" >> cf/cf_id.txt
 #rm -f subnet.txt
 #rm -f vpc.txt
 
-aws cloudformation describe-stacks --stack-name WebCluster > cf/cf_web_cluster.json
-aws cloudformation describe-stacks --stack-name MongoCluster > cf/cf_mongo_cluster.json
+aws cloudformation describe-stacks --stack-name $WEB_STACK_NAME > cf/cf_web_cluster.json
+aws cloudformation describe-stacks --stack-name MONGO_STACK_NAME > cf/cf_mongo_cluster.json
 
 # steps to configure the web servers
 # install mongo client
@@ -170,13 +250,5 @@ do
   ssh -i /opt/ch/key.pem ec2-user\@$w "export MONGOHQ_URL=mongodb://$MONGO_PRIMARY ; cd /home/ec2-user/mean ; npm start > /home/ec2-user/webapp.log 2>&1 &"
 done
 
-# when put operations are in API will publish the IP addresses
-#
-#curl -i https://api.confighub.com/rest/push \
-#     -H "Client-Token: `cat ~/ch_token.txt`"             \
-#     -H "Context: SalesDemos;TEST;MEAN-AWS;${MONGO_CLUSTER_CF_ID} "                \
-#     -H "Application-Name: MEAN"           \
-#     -H "Client-Version: v1.5"  
-#     -H "Files: demo.props" \
-#	-H "Value: $CF"
+
 
