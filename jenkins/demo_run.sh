@@ -132,6 +132,8 @@ echo "MongoCluster: $MONGO_STACK_ID" > cf/cf_id.txt
 #PublicSubnet: 10.0.1.0/24
 
 # MONGO_PRIMARY
+# get the primary mongo node
+export MONGO_PRIMARY=`cat cf/mongo_instances.txt | grep PrimaryReplicaNode00NodeInstanceGP2 | awk '{print $NF}'`
 
 curl -i https://api.confighub.com/rest/push \
      -H "Content-Type: application/json" \
@@ -150,7 +152,7 @@ curl -i https://api.confighub.com/rest/push \
                         \"password\": \"\",
                         \"values\": [
                           {
-                            \"context\": \"SalesDemos;TEST;MEAN-AWS;MongoReplicaMaster\",
+                            \"context\": \"SalesDemos;TEST;MEAN-AWS;AWS-us-east-1\",
                             \"value\": \"$MONGO_PRIMARY\",
                             \"active\": true
                           }
@@ -158,7 +160,7 @@ curl -i https://api.confighub.com/rest/push \
                       }
                     ]
                 "
-                
+
 # add the ASG, ELB, and web instnances into the public subnet
 #
 if [ $wflag == "on" ]
@@ -181,7 +183,7 @@ then
   --parameters ParameterKey=AZs,ParameterValue=$MONGO_AZ1 \
   ParameterKey=InstanceCount,ParameterValue=$WEB_INSTANCE_COUNT \
   ParameterKey=InstanceType,ParameterValue=$WEB_INSTANCE_SIZE \
-  ParameterKey=KeyName,ParameterValue=MONGO_AWS_KEY \
+  ParameterKey=KeyName,ParameterValue=$MONGO_AWS_KEY \
   ParameterKey=Subnets,ParameterValue=`cat cf/subnet.txt` \
   ParameterKey=VpcId,ParameterValue=`cat cf/vpc.txt`
 else
@@ -213,9 +215,6 @@ aws cloudformation describe-stacks --stack-name MONGO_STACK_NAME > cf/cf_mongo_c
 # install mongo client
 
 # doc sez but looks like CF template takes care of this -> The default /etc/mongod.conf configuration file supplied by the packages have bind_ip set to 127.0.0.1 by default. Modify this setting as needed for your environment before initializing a replica set.
-
-# get the primary mongo node
-export MONGO_PRIMARY=`cat cf/mongo_instances.txt | grep PrimaryReplicaNode00NodeInstanceGP2 | awk '{print $NF}'`
 
 echo "### NAT Server..." > cf/ssh.txt
 echo ssh -i $AWS_PEM_2 ec2-user@`cat "$DEMO_DIR/cf/mongo_instances.txt" | grep NATInstance | awk '{print $NF}'` >> cf/ssh.txt

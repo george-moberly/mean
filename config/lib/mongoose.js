@@ -31,38 +31,20 @@ module.exports.connect = function (cb) {
 
   var getVar = deasync(function (url, cb) {
     CH_API_Token = fs.readFileSync('/opt/ch/ch_token.txt', 'utf8');
-    console.log ('ConfigHub API token is ' + CH_API_Token);
+    console.log('ConfigHub API token is ' + CH_API_Token);
     var osPlatform = os.type();
     if (osPlatform === 'Darwin') {
       thisEnv = 'DEV';
     } else {
       thisEnv = 'TEST';
     }
+
+    thisEnv = 'TEST';
+
     console.log('this environment is ' + thisEnv);
 
     var userAgent = {
-      'Client-Token': CH_API_Token ,'Context':'SalesDemos;' + thisEnv + ';MEAN-AWS;MongoReplicaMaster','Application-Name':'MEAN','Client-Version':'v1.5' };
-    console.log('userAgent: ' + JSON.stringify(userAgent));
-    request({ url: url, headers: userAgent },
-      function (err, resp, body) {
-        if (err) { cb(err, null); }
-        cb(null, body);
-      });
-  });
-
-  var getVar2 = deasync(function (url, cb) {
-    CH_API_Token = fs.readFileSync('/opt/ch/ch_token.txt', 'utf8');
-    console.log ('ConfigHub API token is ' + CH_API_Token);
-    var osPlatform = os.type();
-    if (osPlatform === 'Darwin') {
-      thisEnv = 'DEV';
-    } else {
-      thisEnv = 'TEST';
-    }
-    console.log('this environment is ' + thisEnv);
-
-    var userAgent = {
-      'Client-Token': CH_API_Token ,'Context':'SalesDemos;' + thisEnv + ';MEAN-AWS;MongoPort','Application-Name':'MEAN','Client-Version':'v1.5' };
+      'Client-Token': CH_API_Token, 'Context': 'SalesDemos;' + thisEnv + ';MEAN-AWS;AWS-us-east-1', 'Application-Name': 'MEAN', 'Client-Version': 'v1.5' };
     console.log('userAgent: ' + JSON.stringify(userAgent));
     request({ url: url, headers: userAgent },
       function (err, resp, body) {
@@ -80,10 +62,6 @@ module.exports.connect = function (cb) {
   var myVar = getVar('https://api.confighub.com/rest/pull');
   var chProp = JSON.parse(myVar);
   console.log('got this value from ConfigHub: ' + myVar);
-  var myVar2 = getVar2('https://api.confighub.com/rest/pull');
-  var chProp2 = JSON.parse(myVar2);
-  console.log('got this value from ConfigHub for Mongo Port: ' + myVar2);
-
 
   config.db.uri = 'mongodb://' + chProp.properties.MongoHost.val + '/mean-dev';
   console.log('mongo URI is now: ' + config.db.uri.toString());

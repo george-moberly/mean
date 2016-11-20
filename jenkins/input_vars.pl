@@ -55,25 +55,3 @@ while(<>) {
     print "export ${var}=${val}\n";
   }
 }
-
-
-# {
-#   "generatedOn": "11/20/2016 21:22:12",
-#   "account": "ConfigHub.com",
-#   "repo": "ConfigHub",
-#   "context": "SalesDemos;TEST;MEAN-AWS;MongoReplicaMaster",
-#   "properties": {
-#     "MONGO_STACK_NAME": {
-#       "val": "MongoCluster"
-#     },
-#     "MongoPort": {
-#       "val": "27017"
-#     },
-#     "MongoHost": {
-#       "val": "10.0.2.106"
-#     },
-#     "WEB_STACK_NAME": {
-#       "val": "WebCluster"
-#     }
-#   }
-# }
