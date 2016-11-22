@@ -90,7 +90,7 @@ then
   echo "No MongoCluster in CloudFormation - creating one"
   aws cloudformation create-stack --capabilities CAPABILITY_IAM \
   --stack-name $MONGO_STACK_NAME \
-  --template-url http://s3.amazonaws.com/test-gjm/MongoDB-VPC.template \
+  --template-url http://s3.amazonaws.com/confighub-demos/MongoDB-VPC.template \
   --parameters ParameterKey=AvailabilityZone0,ParameterValue=$MONGO_AZ1 \
   ParameterKey=AvailabilityZone1,ParameterValue=$MONGO_AZ2 \
   ParameterKey=AvailabilityZone2,ParameterValue=$MONGO_AZ3 \
@@ -179,7 +179,7 @@ if [ "$WEB_STACK_ID" == "" ]
 then
   echo "No WebCluster in CloudFormation - creating one"
   aws cloudformation create-stack --capabilities CAPABILITY_IAM --stack-name $WEB_STACK_NAME \
-  --template-url http://s3.amazonaws.com/test-gjm/VPC_AutoScaling_and_ElasticLoadBalancer.template \
+  --template-url http://s3.amazonaws.com/confighub-demos/VPC_AutoScaling_and_ElasticLoadBalancer.template \
   --parameters ParameterKey=AZs,ParameterValue=$MONGO_AZ1 \
   ParameterKey=InstanceCount,ParameterValue=$WEB_INSTANCE_COUNT \
   ParameterKey=InstanceType,ParameterValue=$WEB_INSTANCE_SIZE \
