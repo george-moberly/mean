@@ -23,8 +23,8 @@ shift `expr $OPTIND - 1`
 
 # copy latest templates to S3 (the mongo one is too big to work as a local file)
 #
-aws s3 cp MongoDB-VPC.template s3://test-gjm/MongoDB-VPC.template
-aws s3 cp VPC_AutoScaling_and_ElasticLoadBalancer.template s3://test-gjm/VPC_AutoScaling_and_ElasticLoadBalancer.template
+aws s3 cp MongoDB-VPC.template s3://confighub-demos/MongoDB-VPC.template
+aws s3 cp VPC_AutoScaling_and_ElasticLoadBalancer.template s3://confighub-demos/VPC_AutoScaling_and_ElasticLoadBalancer.template
 
 if [ -d "cf" ]
 then

@@ -1,0 +1,66 @@
+HTTP/1.1 200 OK
+Date: Sun, 20 Nov 2016 23:31:39 GMT
+Content-Type: application/json
+Content-Length: 1135
+Server: TomEE
+
+{
+  "generatedOn": "11/20/2016 23:31:39",
+  "account": "ConfigHub.com",
+  "repo": "ConfigHub",
+  "context": "SalesDemos;TEST;MEAN-AWS;AWS-us-east-1",
+  "properties": {
+    "MONGO_REPLICA_SET_COUNT": {
+      "type": "Integer",
+      "val": "3"
+    },
+    "MONGO_STACK_NAME": {
+      "val": "MongoCluster"
+    },
+    "WEB_INSTANCE_COUNT": {
+      "type": "Integer",
+      "val": "2"
+    },
+    "MONGO_ACCESS_CIDR": {
+      "val": "0.0.0.0/0"
+    },
+    "MongoPort": {
+      "val": "27017"
+    },
+    "MONGO_SHARD_COUNT": {
+      "type": "Integer",
+      "val": "1"
+    },
+    "MongoHost": {
+      "val": "10.0.2.20"
+    },
+    "MONGO_SHARDS_PER_NODE": {
+      "val": "0"
+    },
+    "MONGO_VOLUME_SIZE": {
+      "type": "Integer",
+      "val": "16"
+    },
+    "WEB_INSTANCE_SIZE": {
+      "val": "t2.medium"
+    },
+    "MONGO_INST_SIZE": {
+      "val": "m3.medium"
+    },
+    "MONGO_AZ1": {
+      "val": "us-east-1a"
+    },
+    "MONGO_AWS_KEY": {
+      "val": "key"
+    },
+    "MONGO_AZ2": {
+      "val": "us-east-1c"
+    },
+    "MONGO_AZ3": {
+      "val": "us-east-1d"
+    },
+    "WEB_STACK_NAME": {
+      "val": "WebCluster"
+    }
+  }
+}
