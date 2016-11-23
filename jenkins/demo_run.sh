@@ -47,13 +47,14 @@ curl -i https://api.confighub.com/rest/pull \
      -H "Application-Name: MEAN" \
      -H "Pretty: true" > ch_inputs.json
 
-cat ch_inputs.json | perl -f input_vars.pl | tee inputs.env
+rm -f /tmp/inputs.env
+cat ch_inputs.json | perl -f input_vars.pl | tee /tmp/inputs.env
 
-. inputs.env
+. /tmp/inputs.env
 
 echo "Inputs from ConfigHub are:"
-cat inputs.env
-rm -f inputs.env
+cat /tmp/inputs.env
+rm -f /tmp/inputs.env
 
 # run the mongo cluster (includes a VPN)
 #
