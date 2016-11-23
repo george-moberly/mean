@@ -218,11 +218,11 @@ aws cloudformation describe-stacks --stack-name $MONGO_STACK_NAME > cf/cf_mongo_
 # doc sez but looks like CF template takes care of this -> The default /etc/mongod.conf configuration file supplied by the packages have bind_ip set to 127.0.0.1 by default. Modify this setting as needed for your environment before initializing a replica set.
 
 echo "### NAT Server..." > cf/ssh.txt
-echo ssh -i $AWS_PEM_2 ec2-user@`cat "$DEMO_DIR/cf/mongo_instances.txt" | grep NATInstance | awk '{print $NF}'` >> cf/ssh.txt
+echo ssh -i $AWS_PEM_2 ec2-user@`cat "cf/mongo_instances.txt" | grep NATInstance | awk '{print $NF}'` >> cf/ssh.txt
 echo "### Web1 Server..." >> cf/ssh.txt
-echo ssh -i $AWS_PEM_2 ec2-user@`cat "$DEMO_DIR/cf/web_instances.txt" | grep WebServerGroup1 | awk '{print $NF}'` >> cf/ssh.txt
+echo ssh -i $AWS_PEM_2 ec2-user@`cat "cf/web_instances.txt" | grep WebServerGroup1 | awk '{print $NF}'` >> cf/ssh.txt
 echo "### Web2 Server..." >> cf/ssh.txt
-echo ssh -i $AWS_PEM_2 ec2-user@`cat "$DEMO_DIR/cf/web_instances.txt" | grep WebServerGroup2 | awk '{print $NF}'` >> cf/ssh.txt
+echo ssh -i $AWS_PEM_2 ec2-user@`cat "cf/web_instances.txt" | grep WebServerGroup2 | awk '{print $NF}'` >> cf/ssh.txt
 
 # all this needs to move to the webcluster CF template...
 #
