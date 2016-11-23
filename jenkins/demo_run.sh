@@ -240,25 +240,25 @@ echo ssh -i $/opt/ch/$KEY_NAME.pem ec2-user@`cat "cf/web_instances.txt" | grep W
 for w in `cat cf/web_instances.txt | egrep "^WebServerGroup" | awk '{print $NF}'`
 do
   echo $w
-  scp -o StrictHostKeyChecking=no -i /opt/ch/key.pem mongodb-org-3.2.repo ec2-user\@$w:/tmp
-  ssh -i /opt/ch/key.pem ec2-user\@$w "sudo su - root -c 'mkdir /opt/ch'"
-  ssh -i /opt/ch/key.pem ec2-user\@$w "sudo su - root -c 'chmod 777 /opt/ch'"
-  scp -o StrictHostKeyChecking=no -i /opt/ch/key.pem /opt/ch/ch_token.txt ec2-user\@$w:/opt/ch
-  ssh -i /opt/ch/key.pem ec2-user\@$w "sudo su - root -c 'cp /tmp/mongodb-org-3.2.repo /etc/yum.repos.d/'"
-  ssh -i /opt/ch/key.pem ec2-user\@$w "ls /etc/yum.repos.d/"
-  ssh -i /opt/ch/key.pem ec2-user\@$w "sudo su - root -c 'yum -y install mongodb-org-shell'"
-  ssh -i /opt/ch/key.pem ec2-user\@$w "mongo $MONGO_PRIMARY:27017/test --eval 'printjson(db.getCollectionNames())'"
-  ssh -i /opt/ch/key.pem ec2-user\@$w "curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh | bash"
-  ssh -i /opt/ch/key.pem ec2-user\@$w "nvm install v6.9.1"
-  ssh -i /opt/ch/key.pem ec2-user\@$w "sudo su - root -c 'yum -y install git'"
-  ssh -i /opt/ch/key.pem ec2-user\@$w "npm install -g bower"
-  ssh -i /opt/ch/key.pem ec2-user\@$w "ssh-keyscan -t rsa github.com > ~/.ssh/known_hosts"
-  ssh -i /opt/ch/key.pem ec2-user\@$w "cd /home/ec2-user ; git clone https://github.com/george-moberly/mean.git"
-  ssh -i /opt/ch/key.pem ec2-user\@$w "cd /home/ec2-user/mean ; git pull"
-  ssh -i /opt/ch/key.pem ec2-user\@$w "cd /home/ec2-user/mean ; npm install"
-  ssh -i /opt/ch/key.pem ec2-user\@$w "cd /home/ec2-user/mean ; npm install -g gulp"
-  ssh -i /opt/ch/key.pem ec2-user\@$w "cd /home/ec2-user/mean ; npm install gulp"
-  ssh -i /opt/ch/key.pem ec2-user\@$w "export MONGOHQ_URL=mongodb://$MONGO_PRIMARY ; cd /home/ec2-user/mean ; npm start > /home/ec2-user/webapp.log 2>&1 &"
+  scp -o StrictHostKeyChecking=no -i /opt/ch/$KEY_NAME.pem mongodb-org-3.2.repo ec2-user\@$w:/tmp
+  ssh -i /opt/ch/$KEY_NAME.pem ec2-user\@$w "sudo su - root -c 'mkdir /opt/ch'"
+  ssh -i /opt/ch/$KEY_NAME.pem ec2-user\@$w "sudo su - root -c 'chmod 777 /opt/ch'"
+  scp -o StrictHostKeyChecking=no -i /opt/ch/$KEY_NAME.pem /opt/ch/ch_token.txt ec2-user\@$w:/opt/ch
+  ssh -i /opt/ch/$KEY_NAME.pem ec2-user\@$w "sudo su - root -c 'cp /tmp/mongodb-org-3.2.repo /etc/yum.repos.d/'"
+  ssh -i /opt/ch/$KEY_NAME.pem ec2-user\@$w "ls /etc/yum.repos.d/"
+  ssh -i /opt/ch/$KEY_NAME.pem ec2-user\@$w "sudo su - root -c 'yum -y install mongodb-org-shell'"
+  ssh -i /opt/ch/$KEY_NAME.pem ec2-user\@$w "mongo $MONGO_PRIMARY:27017/test --eval 'printjson(db.getCollectionNames())'"
+  ssh -i /opt/ch/$KEY_NAME.pem ec2-user\@$w "curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh | bash"
+  ssh -i /opt/ch/$KEY_NAME.pem ec2-user\@$w "nvm install v6.9.1"
+  ssh -i /opt/ch/$KEY_NAME.pem ec2-user\@$w "sudo su - root -c 'yum -y install git'"
+  ssh -i /opt/ch/$KEY_NAME.pem ec2-user\@$w "npm install -g bower"
+  ssh -i /opt/ch/$KEY_NAME.pem ec2-user\@$w "ssh-keyscan -t rsa github.com > ~/.ssh/known_hosts"
+  ssh -i /opt/ch/$KEY_NAME.pem ec2-user\@$w "cd /home/ec2-user ; git clone https://github.com/george-moberly/mean.git"
+  ssh -i /opt/ch/$KEY_NAME.pem ec2-user\@$w "cd /home/ec2-user/mean ; git pull"
+  ssh -i /opt/ch/$KEY_NAME.pem ec2-user\@$w "cd /home/ec2-user/mean ; npm install"
+  ssh -i /opt/ch/$KEY_NAME.pem ec2-user\@$w "cd /home/ec2-user/mean ; npm install -g gulp"
+  ssh -i /opt/ch/$KEY_NAME.pem ec2-user\@$w "cd /home/ec2-user/mean ; npm install gulp"
+  ssh -i /opt/ch/$KEY_NAME.pem ec2-user\@$w "export MONGOHQ_URL=mongodb://$MONGO_PRIMARY ; cd /home/ec2-user/mean ; npm start > /home/ec2-user/webapp.log 2>&1 &"
 done
 
 
