@@ -2,6 +2,17 @@
 
 set -x
 
+export ME=`whoami`
+export KEY_NAME=
+if [ "$ME" == "ec2-user" ]
+then
+  KEY_NAME="key_ec2_user"
+else
+  KEY_NAME="key"
+fi
+
+echo "using key: $KEY_NAME"
+
 wflag=off
 mflag=off
 kflag=off
