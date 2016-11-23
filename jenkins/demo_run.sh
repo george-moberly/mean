@@ -210,7 +210,7 @@ echo "WebCluster: $WEB_STACK_ID" >> cf/cf_id.txt
 #rm -f vpc.txt
 
 aws cloudformation describe-stacks --stack-name $WEB_STACK_NAME > cf/cf_web_cluster.json
-aws cloudformation describe-stacks --stack-name MONGO_STACK_NAME > cf/cf_mongo_cluster.json
+aws cloudformation describe-stacks --stack-name $MONGO_STACK_NAME > cf/cf_mongo_cluster.json
 
 # steps to configure the web servers
 # install mongo client
