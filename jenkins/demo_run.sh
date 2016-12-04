@@ -13,6 +13,8 @@ fi
 
 echo "using key: $KEY_NAME"
 
+. /opt/ch/aws_creds.sh
+
 wflag=off
 mflag=off
 kflag=off
