@@ -2,16 +2,6 @@
 
 set -x
 
-echo "DEMO_DIR: $DEMO_DIR"
-
-if [ ! -d "$DEMO_DIR" ]
-then
-  echo "DEMO_DIR does not exist. Exiting."
-  exit 0
-fi
-
-cd "$DEMO_DIR"
-
 if [ ! -d "cf" ]
 then
   echo "there is no cf directory. exiting."
