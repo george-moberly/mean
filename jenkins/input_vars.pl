@@ -43,15 +43,31 @@ while(<>) {
   	$var = "WEB_INSTANCE_SIZE";
   }
   if (/MongoPort/) {
-  	$var = "MongoPort";
+  	$var = "ERROR";
   	$line = <>;
   }
   if (/MongoHost/) {
-  	$var = "MongoHost";
+  	$var = "ERROR";
     $line = <>;
   }
+  if (/_Password/) {
+    $var = "ERROR";
+    $line = <>;
+  }  
+  if (/_AuthDB/) {
+    $var = "ERROR";
+    $line = <>;
+  } 
+  if (/_User/) {
+    $var = "ERROR";
+    $line = <>;
+  } 
+  if (/MongoInternalAuthKey/) {
+    $var = "ERROR";
+    $line = <>;
+  } 
   if (/\"val\": \"(.+)\"/) {
   	$val = $1;
-    print "export ${var}=${val}\n";
+    print "export ${var}=${val}\n";      
   }
 }
