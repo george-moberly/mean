@@ -3,9 +3,14 @@
 set -x
 
 echo "JENKINS_SERVER: $JENKINS_SERVER"
-echo "AWS_PEM: $AWS_PEM"
 echo "JENKINS: $JENKINS"
 echo "DEMO_DIR: $DEMO_DIR"
+
+if [ ! -d "$DEMO_DIR" ]
+then
+  echo "DEMO_DIR does not exist. Exiting."
+  exit 0
+fi
 
 cd "$DEMO_DIR"
 
@@ -15,7 +20,6 @@ then
 fi
 
 export DIR="/var/lib/jenkins/workspace/MEAN Stack with ConfigHub/jenkins"
-export OTHER_PEM=/opt/ch/key.pem
 
-scp -r -i $AWS_PEM "ec2-user@${JENKINS_SERVER}:\"$DIR/cf/\"" .
+scp -r -i /opt/ch/key.pem "ec2-user@${JENKINS_SERVER}:\"$DIR/cf/\"" .
 

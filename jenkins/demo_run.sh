@@ -235,7 +235,7 @@ echo ssh -i /opt/ch/$KEY_NAME.pem ec2-user@`cat "cf/mongo_instances.txt" | grep 
 echo "### Web1 Server..." >> cf/ssh.txt
 echo ssh -i /opt/ch/$KEY_NAME.pem ec2-user@`cat "cf/web_instances.txt" | grep WebServerGroup1 | awk '{print $NF}'` >> cf/ssh.txt
 echo "### Web2 Server..." >> cf/ssh.txt
-echo ssh -i $/opt/ch/$KEY_NAME.pem ec2-user@`cat "cf/web_instances.txt" | grep WebServerGroup2 | awk '{print $NF}'` >> cf/ssh.txt
+echo ssh -i /opt/ch/$KEY_NAME.pem ec2-user@`cat "cf/web_instances.txt" | grep WebServerGroup2 | awk '{print $NF}'` >> cf/ssh.txt
 
 # all this needs to move to the webcluster CF template...
 #
