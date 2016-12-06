@@ -73,8 +73,7 @@ module.exports.connect = function (cb) {
   } else {
     console.log('mongo username/password unauthenticated in DEV');
   }
-
-  console.log("mongoose params: " + config.db.uri.toString() + " : " + config.db.options.toString())
+  
   var db = mongoose.connect(config.db.uri, config.db.options, function (err) {
     // Log Error
     if (err) {
