@@ -65,15 +65,15 @@ module.exports.connect = function (cb) {
   console.log('mongo URI is now: ' + config.db.uri.toString());
 
   if (thisEnv === "TEST") {
-    //config.db.options.user = chProp.properties.MongoMEAN_User.val;
-    //config.db.options.pass = chProp.properties.MongoMEAN_Password.val;
+    config.db.options.user = chProp.properties.MongoMEAN_User.val;
+    config.db.options.pass = chProp.properties.MongoMEAN_Password.val;
 
     console.log('mongo username: ' + config.db.options.user.toString());
     console.log('mongo password: ' + config.db.options.pass.toString());
   } else {
     console.log('mongo username/password unauthenticated in DEV');
   }
-  
+
   var db = mongoose.connect(config.db.uri, config.db.options, function (err) {
     // Log Error
     if (err) {
