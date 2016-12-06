@@ -68,12 +68,13 @@ module.exports.connect = function (cb) {
     config.db.options.user = chProp.properties.MongoMEAN_User.val;
     config.db.options.pass = chProp.properties.MongoMEAN_Password.val;
 
-    console.log('mongo username: ' + chProp.properties.MongoMEAN_User.toString());
-    console.log('mongo password: ' + chProp.properties.MongoMEAN_Password.toString());
+    console.log('mongo username: ' + config.db.options.user.toString());
+    console.log('mongo password: ' + config.db.options.pass.toString());
   } else {
     console.log('mongo username/password unauthenticated in DEV');
   }
 
+  console.log("mongoose params: " + config.db.uri.toString() + " : " + config.db.options.toString())
   var db = mongoose.connect(config.db.uri, config.db.options, function (err) {
     // Log Error
     if (err) {
