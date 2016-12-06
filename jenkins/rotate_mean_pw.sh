@@ -42,12 +42,13 @@ cat mongo_commands/rotate_demo_user_pw.js | sed "s/TBS/$NEW_PW/" > mongo_command
 
 scp -i /opt/ch/key.pem mongo_commands/rotate_demo_user_pw_gen.js ec2-user\@$NAT:/tmp/
 ssh -t -i /opt/ch/key.pem ec2-user\@$NAT scp -i /opt/ch/key.pem /tmp/rotate_demo_user_pw_gen.js ec2-user\@$PR0:/tmp/
+
 rm -f mongo_commands/rotate_demo_user_pw_gen.js
 ssh -t -i /opt/ch/key.pem ec2-user\@$NAT rm -f /tmp/rotate_demo_user_pw_gen.js
 
 ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$PR0 mongo /tmp/rotate_demo_user_pw_gen.js
 
-#ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$PR0 rm -f /tmp/rotate_demo_user_pw_gen.js
+ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$PR0 rm -f /tmp/rotate_demo_user_pw_gen.js
 
 #read R25
 
