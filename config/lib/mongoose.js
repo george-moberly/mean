@@ -64,7 +64,7 @@ module.exports.connect = function (cb) {
   config.db.uri = 'mongodb://' + chProp.properties.MongoHost.val + '/mean-dev';
   console.log('mongo URI is now: ' + config.db.uri.toString());
 
-  if (thisEnv === TEST) {
+  if (thisEnv === "TEST") {
     config.db.options.user = chProp.properties.MongoMEAN_User.val;
     config.db.options.pass = chProp.properties.MongoMEAN_Password.val;
 

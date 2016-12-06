@@ -1,0 +1,2 @@
+db.getSiblingDB("admin").shutdownServer()
+
