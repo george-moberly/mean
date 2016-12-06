@@ -99,8 +99,10 @@ fi
 MONGO_STACK_ID=
 MONGO_STACK_ID=`aws cloudformation describe-stacks --stack-name $MONGO_STACK_NAME | grep StackId | awk '{print $2;}' | sed 's/\"//g' | sed 's/\,//g'`
 echo "MONGO_STACK_ID: $MONGO_STACK_ID"
+export CREATED_MONGO=no
 if [ "$MONGO_STACK_ID" == "" ]
 then
+  CREATED_MONGO=yes
   echo "No MongoCluster in CloudFormation - creating one"
   aws cloudformation create-stack --capabilities CAPABILITY_IAM \
   --stack-name $MONGO_STACK_NAME \
@@ -174,6 +176,13 @@ curl -i https://api.confighub.com/rest/push \
                       }
                     ]
                 "
+
+# turn on Mongo internal auth and set up users.
+#
+if [ "$CREATED_MONGO" == "yes"]
+then
+  . ./mongo_auth.sh
+fi
 
 # add the ASG, ELB, and web instnances into the public subnet
 #
