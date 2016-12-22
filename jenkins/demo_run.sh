@@ -52,8 +52,8 @@ fi
 #export MONGO_STACK_NAME=MongoCluster
 #export WEB_STACK_NAME=WebCluster
 
-curl -i https://api.confighub.com/rest/pull \
-     -H "Context: SalesDemos;TEST;MEAN-AWS;AWS-us-east-1"                \
+curl -i https://demo.confighub.com/rest/pull \
+     -H "Context: SalesDemos;TEST;MEAN-AWS;CF-Mongo-us-east-1"                \
      -H "Content-Type: application/json" \
      -H "Client-Token: `cat /opt/ch/ch_token.txt`" \
      -H "Client-Version: v1.5" \
@@ -65,9 +65,28 @@ cat ch_inputs.json | perl -f input_vars.pl | tee /tmp/inputs.env
 
 . /tmp/inputs.env
 
-echo "Inputs from ConfigHub are:"
+echo "Mongo Inputs from ConfigHub are:"
 cat /tmp/inputs.env
 rm -f /tmp/inputs.env
+
+curl -i https://demo.confighub.com/rest/pull \
+     -H "Context: SalesDemos;TEST;MEAN-AWS;CF-Web-us-east-1"                \
+     -H "Content-Type: application/json" \
+     -H "Client-Token: `cat /opt/ch/ch_token.txt`" \
+     -H "Client-Version: v1.5" \
+     -H "Application-Name: MEAN" \
+     -H "Pretty: true" > ch_inputs.json
+
+rm -f /tmp/inputs.env
+cat ch_inputs.json | perl -f input_vars.pl | tee /tmp/inputs.env
+
+. /tmp/inputs.env
+
+echo "Webserver Inputs from ConfigHub are:"
+cat /tmp/inputs.env
+rm -f /tmp/inputs.env
+
+exit
 
 # run the mongo cluster (includes a VPN)
 #
@@ -78,6 +97,8 @@ then
   aws cloudformation delete-stack --stack-name $MONGO_STACK_NAME
   aws cloudformation wait stack-delete-complete --stack-name $MONGO_STACK_NAME
 fi
+
+exit
 
 if [ $kflag == "on" ]
 then
@@ -151,7 +172,7 @@ echo "MongoCluster: $MONGO_STACK_ID" > cf/cf_id.txt
 # get the primary mongo node
 export MONGO_PRIMARY=`cat cf/mongo_instances.txt | grep PrimaryReplicaNode00NodeInstanceGP2 | awk '{print $NF}'`
 
-curl -i https://api.confighub.com/rest/push \
+curl -i https://demo.confighub.com/rest/push \
      -H "Content-Type: application/json" \
      -H "Client-Token: `cat /opt/ch/ch_token.txt`" \
      -H "Client-Version: v1.5" \
@@ -168,7 +189,7 @@ curl -i https://api.confighub.com/rest/push \
                         \"password\": \"\",
                         \"values\": [
                           {
-                            \"context\": \"SalesDemos;TEST;MEAN-AWS;AWS-us-east-1\",
+                            \"context\": \"SalesDemos;TEST;MEAN-AWS;CF-Mongo-us-east-1\",
                             \"value\": \"$MONGO_PRIMARY\",
                             \"active\": true
                           }
