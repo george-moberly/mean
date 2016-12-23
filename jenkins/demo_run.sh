@@ -96,8 +96,6 @@ then
   aws cloudformation wait stack-delete-complete --stack-name $MONGO_STACK_NAME
 fi
 
-exit
-
 if [ $kflag == "on" ]
 then
   echo "-k is active. Killed the stacks and exiting now."
