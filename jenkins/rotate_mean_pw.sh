@@ -62,7 +62,7 @@ curl -i https://demo.confighub.com/rest/push \
      -H "Client-Token: `cat /opt/ch/ch_token.txt`" \
      -H "Client-Version: v1.5" \
      -H "Application-Name: MEAN" \
-     -X POST -d "
+     -X POST -d "{ "data" : 
                     [
                       {
                         \"key\": \"MongoMEAN_Password\",
@@ -81,7 +81,7 @@ curl -i https://demo.confighub.com/rest/push \
                         ]
                       }
                     ]
-                "
+                }"
 
 
 

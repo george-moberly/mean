@@ -74,7 +74,7 @@ curl -i https://demo.confighub.com/rest/push \
      -H "Client-Token: `cat /opt/ch/ch_token.txt`" \
      -H "Client-Version: v1.5" \
      -H "Application-Name: MEAN" \
-     -X POST -d "
+     -X POST -d "{ "data" : 
                     [
                       {
                         \"key\": \"MongoInternalAuthKey\",
@@ -93,7 +93,7 @@ curl -i https://demo.confighub.com/rest/push \
                         ]
                       }
                     ]
-                "
+                }"
 
 #read R5
 
@@ -268,7 +268,7 @@ curl -i https://demo.confighub.com/rest/push \
      -H "Client-Token: `cat /opt/ch/ch_token.txt`" \
      -H "Client-Version: v1.5" \
      -H "Application-Name: MEAN" \
-     -X POST -d "
+     -X POST -d "{ "data" : 
                     [
                       {
                         \"key\": \"MongoUserAdmin_User\",
@@ -287,14 +287,14 @@ curl -i https://demo.confighub.com/rest/push \
                         ]
                       }
                     ]
-                "
+                }"
                 
 curl -i https://demo.confighub.com/rest/push \
      -H "Content-Type: application/json" \
      -H "Client-Token: `cat /opt/ch/ch_token.txt`" \
      -H "Client-Version: v1.5" \
      -H "Application-Name: MEAN" \
-     -X POST -d "
+     -X POST -d "{ "data" : 
                     [
                       {
                         \"key\": \"MongoUserAdmin_Password\",
@@ -313,14 +313,14 @@ curl -i https://demo.confighub.com/rest/push \
                         ]
                       }
                     ]
-                "
+                }"
 
 curl -i https://demo.confighub.com/rest/push \
      -H "Content-Type: application/json" \
      -H "Client-Token: `cat /opt/ch/ch_token.txt`" \
      -H "Client-Version: v1.5" \
      -H "Application-Name: MEAN" \
-     -X POST -d "
+     -X POST -d "{ "data" : 
                     [
                       {
                         \"key\": \"MongoUserAdmin_AuthDB\",
@@ -339,14 +339,14 @@ curl -i https://demo.confighub.com/rest/push \
                         ]
                       }
                     ]
-                "
+                }"
 
 curl -i https://demo.confighub.com/rest/push \
      -H "Content-Type: application/json" \
      -H "Client-Token: `cat /opt/ch/ch_token.txt`" \
      -H "Client-Version: v1.5" \
      -H "Application-Name: MEAN" \
-     -X POST -d "
+     -X POST -d "{ "data" : 
                     [
                       {
                         \"key\": \"MongoClusterAdmin_User\",
@@ -365,14 +365,14 @@ curl -i https://demo.confighub.com/rest/push \
                         ]
                       }
                     ]
-                "
+                }"
 
 curl -i https://demo.confighub.com/rest/push \
      -H "Content-Type: application/json" \
      -H "Client-Token: `cat /opt/ch/ch_token.txt`" \
      -H "Client-Version: v1.5" \
      -H "Application-Name: MEAN" \
-     -X POST -d "
+     -X POST -d "{ "data" : 
                     [
                       {
                         \"key\": \"MongoClusterAdmin_Password\",
@@ -391,14 +391,14 @@ curl -i https://demo.confighub.com/rest/push \
                         ]
                       }
                     ]
-                "
+                }"
 
 curl -i https://demo.confighub.com/rest/push \
      -H "Content-Type: application/json" \
      -H "Client-Token: `cat /opt/ch/ch_token.txt`" \
      -H "Client-Version: v1.5" \
      -H "Application-Name: MEAN" \
-     -X POST -d "
+     -X POST -d "{ "data" : 
                     [
                       {
                         \"key\": \"MongoClusterAdmin_AuthDB\",
@@ -417,14 +417,14 @@ curl -i https://demo.confighub.com/rest/push \
                         ]
                       }
                     ]
-                "
+                }"
 
 curl -i https://demo.confighub.com/rest/push \
      -H "Content-Type: application/json" \
      -H "Client-Token: `cat /opt/ch/ch_token.txt`" \
      -H "Client-Version: v1.5" \
      -H "Application-Name: MEAN" \
-     -X POST -d "
+     -X POST -d "{ "data" : 
                     [
                       {
                         \"key\": \"MongoMEAN_User\",
@@ -443,14 +443,14 @@ curl -i https://demo.confighub.com/rest/push \
                         ]
                       }
                     ]
-                "
+                }"
 
 curl -i https://demo.confighub.com/rest/push \
      -H "Content-Type: application/json" \
      -H "Client-Token: `cat /opt/ch/ch_token.txt`" \
      -H "Client-Version: v1.5" \
      -H "Application-Name: MEAN" \
-     -X POST -d "
+     -X POST -d "{ "data" : 
                     [
                       {
                         \"key\": \"MongoMEAN_Password\",
@@ -469,14 +469,14 @@ curl -i https://demo.confighub.com/rest/push \
                         ]
                       }
                     ]
-                "
+                }"
 
 curl -i https://demo.confighub.com/rest/push \
      -H "Content-Type: application/json" \
      -H "Client-Token: `cat /opt/ch/ch_token.txt`" \
      -H "Client-Version: v1.5" \
      -H "Application-Name: MEAN" \
-     -X POST -d "
+     -X POST -d "{ "data" : 
                     [
                       {
                         \"key\": \"MongoMEAN_AuthDB\",
@@ -495,7 +495,7 @@ curl -i https://demo.confighub.com/rest/push \
                         ]
                       }
                     ]
-                "
+                }"
 
 
 
