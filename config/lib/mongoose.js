@@ -42,7 +42,7 @@ module.exports.connect = function (cb) {
     console.log('this environment is ' + thisEnv);
 
     var userAgent = {
-      'Client-Token': CH_API_Token, 'Context': 'SalesDemos;' + thisEnv + ';MEAN-AWS;AWS-us-east-1', 'Application-Name': 'MEAN', 'Client-Version': 'v1.5' };
+      'Client-Token': CH_API_Token, 'Context': 'SalesDemos;' + thisEnv + ';MEAN-AWS;MongoAccess-us-east-1', 'Application-Name': 'MEAN', 'Client-Version': 'v1.5' };
     console.log('userAgent: ' + JSON.stringify(userAgent));
     request({ url: url, headers: userAgent },
       function (err, resp, body) {
@@ -57,7 +57,7 @@ module.exports.connect = function (cb) {
 
   // get the mongo host value from ConfigHub
   //
-  var myVar = getVar('https://api.confighub.com/rest/pull');
+  var myVar = getVar('https://demo.confighub.com/rest/pull');
   var chProp = JSON.parse(myVar);
   console.log('got this value from ConfigHub: ' + myVar);
 
