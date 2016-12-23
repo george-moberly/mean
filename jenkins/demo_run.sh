@@ -173,7 +173,7 @@ curl -i https://demo.confighub.com/rest/push \
      -H "Client-Token: `cat /opt/ch/ch_token.txt`" \
      -H "Client-Version: v1.5" \
      -H "Application-Name: MEAN" \
-     -X POST -d "
+     -X POST -d "{ "data" : 
                     [
                       {
                         \"key\": \"MongoHost\",
@@ -192,7 +192,7 @@ curl -i https://demo.confighub.com/rest/push \
                         ]
                       }
                     ]
-                "
+                }"
 
 # turn on Mongo internal auth and set up users.
 #
