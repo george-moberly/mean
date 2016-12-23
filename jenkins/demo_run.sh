@@ -177,7 +177,7 @@ curl -i https://demo.confighub.com/rest/push \
                     [
                       {
                         \"key\": \"MongoHost\",
-                        \"readme\": \"This is the Mongo Host IP of a Replica Set Primary\",
+                        \"readme\": \"IP Address of Mongo Cluster Primary Node for Webserver Client Connections\",
                         \"deprecated\": false,
                         \"vdt\": \"Text\",
                         \"push\": true,
@@ -185,7 +185,7 @@ curl -i https://demo.confighub.com/rest/push \
                         \"password\": \"\",
                         \"values\": [
                           {
-                            \"context\": \"SalesDemos;TEST;MEAN-AWS;CF-Mongo-us-east-1\",
+                            \"context\": \"SalesDemos;TEST;MEAN-AWS;MongoAccess-us-east-1\",
                             \"value\": \"$MONGO_PRIMARY\",
                             \"active\": true
                           }
