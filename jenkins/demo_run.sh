@@ -86,8 +86,6 @@ echo "Webserver Inputs from ConfigHub are:"
 cat /tmp/inputs.env
 rm -f /tmp/inputs.env
 
-exit
-
 # run the mongo cluster (includes a VPN)
 #
 if [ $mflag == "on" ]
