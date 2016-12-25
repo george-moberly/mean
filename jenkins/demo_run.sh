@@ -291,5 +291,6 @@ do
   ssh -i /opt/ch/$KEY_NAME.pem ec2-user\@$w "tail -30 /home/ec2-user/webapp.log"
 done
 
-
+echo "all done, here are the web instances"
+cat cf/web_instances.txt
 
