@@ -253,6 +253,8 @@ ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-use
 
 #read R24
 
+sleep 20
+
 ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$PR0 mongo /tmp/demo_user.js 
 
 #read R25
