@@ -287,6 +287,8 @@ do
   ssh -i /opt/ch/$KEY_NAME.pem ec2-user\@$w "cd /home/ec2-user/mean ; npm install -g gulp"
   ssh -i /opt/ch/$KEY_NAME.pem ec2-user\@$w "cd /home/ec2-user/mean ; npm install gulp"
   ssh -i /opt/ch/$KEY_NAME.pem ec2-user\@$w "export MONGOHQ_URL=mongodb://$MONGO_PRIMARY ; cd /home/ec2-user/mean ; npm start > /home/ec2-user/webapp.log 2>&1 &"
+  sleep 15
+  ssh -i /opt/ch/$KEY_NAME.pem ec2-user\@$w "tail -30 /home/ec2-user/webapp.log"
 done
 
 

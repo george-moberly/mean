@@ -115,148 +115,151 @@ ssh -i /opt/ch/key.pem ec2-user\@$NAT scp -i /opt/ch/key.pem /tmp/\*.js ec2-user
 
 # show sharding status on the primary
 #
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$PR0 mongo /tmp/sh_status.js
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$PR0 mongo /tmp/sh_status.js
 
 #read R8
 
 # stop the balancer
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$PR0 mongo /tmp/stop_balancer.js
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$PR0 mongo /tmp/stop_balancer.js
 
 #read R9
 
 # get balancer state
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$PR0 mongo /tmp/get_balancer_state.js
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$PR0 mongo /tmp/get_balancer_state.js
 
 #read R10
 
 #https://docs.mongodb.com/v3.2/tutorial/enforce-keyfile-access-control-in-existing-sharded-cluster/#enforce-keyfile-internal-authentication-on-existing-sharded-cluster-deployment
 
 # shut down mongos on primary (only node with a mongos)
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$PR0 mongo /tmp/shut_down.js
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$PR0 mongo /tmp/shut_down.js
 ssh -i /opt/ch/key.pem ec2-user\@$NAT ssh -i /opt/ch/key.pem ec2-user\@$PR0 ps ax | grep mongo
 
 #read R11
 
 # shut down mongod on config servers
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$CS0 mongo --port 27030 /tmp/shut_down.js
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$CS0 mongo --port 27030 /tmp/shut_down.js
 ssh -i /opt/ch/key.pem ec2-user\@$NAT ssh -i /opt/ch/key.pem ec2-user\@$CS0 ps ax | grep mongo
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$CS1 mongo --port 27030 /tmp/shut_down.js
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$CS1 mongo --port 27030 /tmp/shut_down.js
 ssh -i /opt/ch/key.pem ec2-user\@$NAT ssh -i /opt/ch/key.pem ec2-user\@$CS1 ps ax | grep mongo
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$CS2 mongo --port 27030 /tmp/shut_down.js
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$CS2 mongo --port 27030 /tmp/shut_down.js
 ssh -i /opt/ch/key.pem ec2-user\@$NAT ssh -i /opt/ch/key.pem ec2-user\@$CS2 ps ax | grep mongo
 
 #read R12
 
 # shut down mongod on secondaries and primary
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$SR0 mongo --port 27018 /tmp/shut_down.js
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$SR0 mongo --port 27018 /tmp/shut_down.js
 ssh -i /opt/ch/key.pem ec2-user\@$NAT ssh -i /opt/ch/key.pem ec2-user\@$SR0 ps ax | grep mongo
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$SR1 mongo --port 27018 /tmp/shut_down.js
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$SR1 mongo --port 27018 /tmp/shut_down.js
 ssh -i /opt/ch/key.pem ec2-user\@$NAT ssh -i /opt/ch/key.pem ec2-user\@$SR1 ps ax | grep mongo
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$PR0 mongo --port 27018 /tmp/shut_down.js
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$PR0 mongo --port 27018 /tmp/shut_down.js
 ssh -i /opt/ch/key.pem ec2-user\@$NAT ssh -i /opt/ch/key.pem ec2-user\@$PR0 ps ax | grep mongo
 
 #read R13
 
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$PR0 ps ax | grep mongo
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$SR0 ps ax | grep mongo
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$SR1 ps ax | grep mongo
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$CS0 ps ax | grep mongo
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$CS1 ps ax | grep mongo
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$CS2 ps ax | grep mongo
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$PR0 ps ax | grep mongo
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$SR0 ps ax | grep mongo
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$SR1 ps ax | grep mongo
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$CS0 ps ax | grep mongo
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$CS1 ps ax | grep mongo
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$CS2 ps ax | grep mongo
 
 #read R14
 
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$CS0 "sudo su - root -c \\\"chmod 777 /etc\\\""
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$CS0 "sudo su - root -c \\\"chmod 777 /etc/mongod.conf\\\""
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$CS0 "sudo su - root -c \\\"chmod 400 /tmp/mkey.js\\\""
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$CS0 cat /etc/mongod.conf /tmp/config.js \\\> /etc/mongod.conf.1
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$CS0 mv /etc/mongod.conf /etc/mongod.conf.sav
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$CS0 mv /etc/mongod.conf.1 /etc/mongod.conf
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$CS0 "sudo su - root -c \\\"mongod -f /etc/mongod.conf\\\""
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$CS0 "sudo su - root -c \\\"chmod 777 /etc\\\""
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$CS0 "sudo su - root -c \\\"chmod 777 /etc/mongod.conf\\\""
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$CS0 "sudo su - root -c \\\"chmod 400 /tmp/mkey.js\\\""
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$CS0 cat /etc/mongod.conf /tmp/config.js \\\> /etc/mongod.conf.1
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$CS0 mv /etc/mongod.conf /etc/mongod.conf.sav
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$CS0 mv /etc/mongod.conf.1 /etc/mongod.conf
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$CS0 "sudo su - root -c \\\"mongod -f /etc/mongod.conf\\\""
 
 #read R15
 
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$CS1 "sudo su - root -c \\\"chmod 777 /etc\\\""
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$CS1 "sudo su - root -c \\\"chmod 777 /etc/mongod.conf\\\""
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$CS1 "sudo su - root -c \\\"chmod 400 /tmp/mkey.js\\\""
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$CS1 cat /etc/mongod.conf /tmp/config.js \\\> /etc/mongod.conf.1
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$CS1 mv /etc/mongod.conf /etc/mongod.conf.sav
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$CS1 mv /etc/mongod.conf.1 /etc/mongod.conf
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$CS1 "sudo su - root -c \\\"mongod -f /etc/mongod.conf\\\""
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$CS1 "sudo su - root -c \\\"chmod 777 /etc\\\""
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$CS1 "sudo su - root -c \\\"chmod 777 /etc/mongod.conf\\\""
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$CS1 "sudo su - root -c \\\"chmod 400 /tmp/mkey.js\\\""
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$CS1 cat /etc/mongod.conf /tmp/config.js \\\> /etc/mongod.conf.1
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$CS1 mv /etc/mongod.conf /etc/mongod.conf.sav
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$CS1 mv /etc/mongod.conf.1 /etc/mongod.conf
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$CS1 "sudo su - root -c \\\"mongod -f /etc/mongod.conf\\\""
 
 #read R16
 
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$CS2 "sudo su - root -c \\\"chmod 777 /etc\\\""
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$CS2 "sudo su - root -c \\\"chmod 777 /etc/mongod.conf\\\""
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$CS2 "sudo su - root -c \\\"chmod 400 /tmp/mkey.js\\\""
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$CS2 cat /etc/mongod.conf /tmp/config.js \\\> /etc/mongod.conf.1
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$CS2 mv /etc/mongod.conf /etc/mongod.conf.sav
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$CS2 mv /etc/mongod.conf.1 /etc/mongod.conf
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$CS2 "sudo su - root -c \\\"mongod -f /etc/mongod.conf\\\""
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$CS2 "sudo su - root -c \\\"chmod 777 /etc\\\""
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$CS2 "sudo su - root -c \\\"chmod 777 /etc/mongod.conf\\\""
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$CS2 "sudo su - root -c \\\"chmod 400 /tmp/mkey.js\\\""
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$CS2 cat /etc/mongod.conf /tmp/config.js \\\> /etc/mongod.conf.1
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$CS2 mv /etc/mongod.conf /etc/mongod.conf.sav
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$CS2 mv /etc/mongod.conf.1 /etc/mongod.conf
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$CS2 "sudo su - root -c \\\"mongod -f /etc/mongod.conf\\\""
 
 #read R17
 
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$SR0 "sudo su - root -c \\\"chmod 777 /etc\\\""
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$SR0 "sudo su - root -c \\\"chmod 777 /etc/mongod0.conf\\\""
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$SR0 "sudo su - root -c \\\"chmod 400 /tmp/mkey.js\\\""
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$SR0 cat /etc/mongod0.conf /tmp/config.js \\\> /etc/mongod0.conf.1
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$SR0 mv /etc/mongod0.conf /etc/mongod0.conf.sav
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$SR0 mv /etc/mongod0.conf.1 /etc/mongod0.conf
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$SR0 "sudo su - root -c \\\"mongod -f /etc/mongod0.conf\\\""
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$SR0 "sudo su - root -c \\\"chmod 777 /etc\\\""
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$SR0 "sudo su - root -c \\\"chmod 777 /etc/mongod0.conf\\\""
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$SR0 "sudo su - root -c \\\"chmod 400 /tmp/mkey.js\\\""
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$SR0 cat /etc/mongod0.conf /tmp/config.js \\\> /etc/mongod0.conf.1
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$SR0 mv /etc/mongod0.conf /etc/mongod0.conf.sav
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$SR0 mv /etc/mongod0.conf.1 /etc/mongod0.conf
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$SR0 "sudo su - root -c \\\"mongod -f /etc/mongod0.conf\\\""
 
 #read R18
 
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$SR1 "sudo su - root -c \\\"chmod 777 /etc\\\""
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$SR1 "sudo su - root -c \\\"chmod 777 /etc/mongod0.conf\\\""
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$SR1 "sudo su - root -c \\\"chmod 400 /tmp/mkey.js\\\""
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$SR1 cat /etc/mongod0.conf /tmp/config.js \\\> /etc/mongod0.conf.1
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$SR1 mv /etc/mongod0.conf /etc/mongod0.conf.sav
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$SR1 mv /etc/mongod0.conf.1 /etc/mongod0.conf
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$SR1 "sudo su - root -c \\\"mongod -f /etc/mongod0.conf\\\""
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$SR1 "sudo su - root -c \\\"chmod 777 /etc\\\""
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$SR1 "sudo su - root -c \\\"chmod 777 /etc/mongod0.conf\\\""
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$SR1 "sudo su - root -c \\\"chmod 400 /tmp/mkey.js\\\""
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$SR1 cat /etc/mongod0.conf /tmp/config.js \\\> /etc/mongod0.conf.1
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$SR1 mv /etc/mongod0.conf /etc/mongod0.conf.sav
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$SR1 mv /etc/mongod0.conf.1 /etc/mongod0.conf
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$SR1 "sudo su - root -c \\\"mongod -f /etc/mongod0.conf\\\""
 
 #read R19
 
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$PR0 "sudo su - root -c \\\"chmod 777 /etc\\\""
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$PR0 "sudo su - root -c \\\"chmod 777 /etc/mongod0.conf\\\""
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$PR0 "sudo su - root -c \\\"chmod 400 /tmp/mkey.js\\\""
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$PR0 cat /etc/mongod0.conf /tmp/config.js \\\> /etc/mongod0.conf.1
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$PR0 mv /etc/mongod0.conf /etc/mongod0.conf.sav
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$PR0 mv /etc/mongod0.conf.1 /etc/mongod0.conf
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$PR0 "sudo su - root -c \\\"mongod -f /etc/mongod0.conf\\\""
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$PR0 "sudo su - root -c \\\"chmod 777 /etc\\\""
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$PR0 "sudo su - root -c \\\"chmod 777 /etc/mongod0.conf\\\""
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$PR0 "sudo su - root -c \\\"chmod 400 /tmp/mkey.js\\\""
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$PR0 cat /etc/mongod0.conf /tmp/config.js \\\> /etc/mongod0.conf.1
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$PR0 mv /etc/mongod0.conf /etc/mongod0.conf.sav
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$PR0 mv /etc/mongod0.conf.1 /etc/mongod0.conf
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$PR0 "sudo su - root -c \\\"mongod -f /etc/mongod0.conf\\\""
 
 #read R20
 
 # the mongos
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$PR0 "sudo su - root -c \\\"chmod 777 /etc/mongos.conf\\\""
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$PR0 "sudo su - root -c \\\"chmod 400 /tmp/mkey.js\\\""
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$PR0 cat /etc/mongos.conf /tmp/config.js \\\> /etc/mongos.conf.1
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$PR0 mv /etc/mongos.conf /etc/mongos.conf.sav
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$PR0 mv /etc/mongos.conf.1 /etc/mongos.conf
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$PR0 "sudo su - root -c \\\"mongos -f /etc/mongos.conf\\\""
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$PR0 "sudo su - root -c \\\"chmod 777 /etc/mongos.conf\\\""
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$PR0 "sudo su - root -c \\\"chmod 400 /tmp/mkey.js\\\""
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$PR0 cat /etc/mongos.conf /tmp/config.js \\\> /etc/mongos.conf.1
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$PR0 mv /etc/mongos.conf /etc/mongos.conf.sav
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$PR0 mv /etc/mongos.conf.1 /etc/mongos.conf
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$PR0 "sudo su - root -c \\\"mongos -f /etc/mongos.conf\\\""
 
 #read R21
 
 # step 12: Create the user administrator
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$PR0 mongo /tmp/admin_user.js
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$PR0 mongo /tmp/admin_user.js
 
 #read R22
 
 # 
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$PR0 mongo /tmp/cluster_admin.js
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$PR0 mongo /tmp/cluster_admin.js
 
 #read R23
 
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$PR0 mongo /tmp/start_balancer.js
+# this times out and throws an error but it seems to be ok.
+# the later sh.status shows the balancer started
+#
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$PR0 mongo /tmp/start_balancer.js
 
 #read R24
 
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$PR0 mongo /tmp/demo_user.js 
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$PR0 mongo /tmp/demo_user.js 
 
 #read R25
 
 # show sharding status on the primary
 #
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$PR0 mongo -u "george2" -p "george2" --authenticationDatabase "admin" /tmp/sh_status.js
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$PR0 mongo -u "george2" -p "george2" --authenticationDatabase "admin" /tmp/sh_status.js
 
 # mongo -u "george" -p "george" --authenticationDatabase "admin" --port 27017 --host $PR0
 # mongo -u "george2" -p "george2" --authenticationDatabase "admin" --port 27017 --host $PR0

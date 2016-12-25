@@ -31,7 +31,7 @@ module.exports.connect = function (cb) {
 
   var getVar = deasync(function (url, cb) {
     CH_API_Token = fs.readFileSync('/opt/ch/ch_token.txt', 'utf8');
-    console.log('ConfigHub API token is ' + CH_API_Token);
+    console.log('ConfigHub API token is @' + CH_API_Token + "@");
     var osPlatform = os.type();
     if (osPlatform === 'Darwin') {
       thisEnv = 'DEV';
@@ -39,7 +39,7 @@ module.exports.connect = function (cb) {
       thisEnv = 'TEST';
     }
 
-    console.log('this environment is ' + thisEnv);
+    console.log('this environment is @' + thisEnv + "@");
 
     var userAgent = {
       'Client-Token': CH_API_Token, 'Context': 'SalesDemos;' + thisEnv + ';MEAN-AWS;MongoAccess-us-east-1', 'Application-Name': 'MEAN', 'Client-Version': 'v1.5' };
@@ -58,6 +58,7 @@ module.exports.connect = function (cb) {
   // get the mongo host value from ConfigHub
   //
   var myVar = getVar('https://demo.confighub.com/rest/pull');
+  console.log("myVar: " + myVar);
   var chProp = JSON.parse(myVar);
   console.log('got this value from ConfigHub: ' + myVar);
 

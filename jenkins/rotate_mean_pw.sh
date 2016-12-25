@@ -2,6 +2,17 @@
 
 set -x
 
+export ME=`whoami`
+export KEY_NAME=
+if [ "$ME" == "ec2-user" ]
+then
+  KEY_NAME="key_ec2_user"
+else
+  KEY_NAME="key"
+fi
+
+echo "using key: $KEY_NAME"
+
 if [ ! -d "cf" ]
 then
   echo "there is no cf directory. exiting."
@@ -41,14 +52,14 @@ echo "new password: $NEW_PW"
 cat mongo_commands/rotate_demo_user_pw.js | sed "s/TBS/$NEW_PW/" > mongo_commands/rotate_demo_user_pw_gen.js
 
 scp -i /opt/ch/key.pem mongo_commands/rotate_demo_user_pw_gen.js ec2-user\@$NAT:/tmp/
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT scp -i /opt/ch/key.pem /tmp/rotate_demo_user_pw_gen.js ec2-user\@$PR0:/tmp/
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT scp -i /opt/ch/key.pem /tmp/rotate_demo_user_pw_gen.js ec2-user\@$PR0:/tmp/
 
 rm -f mongo_commands/rotate_demo_user_pw_gen.js
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT rm -f /tmp/rotate_demo_user_pw_gen.js
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT rm -f /tmp/rotate_demo_user_pw_gen.js
 
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$PR0 mongo /tmp/rotate_demo_user_pw_gen.js
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$PR0 mongo /tmp/rotate_demo_user_pw_gen.js
 
-ssh -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -i /opt/ch/key.pem ec2-user\@$PR0 rm -f /tmp/rotate_demo_user_pw_gen.js
+ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-user\@$PR0 rm -f /tmp/rotate_demo_user_pw_gen.js
 
 #read R25
 
@@ -98,3 +109,17 @@ curl -i https://demo.confighub.com/rest/push \
 # users
 # mongos> db.users.find()
 # { "_id" : ObjectId("5844c542467f8414a2e9e653"), "salt" : "OKapiAQtRNek1G5WnfOPjg==", "displayName" : "George Moberly", "provider" : "local", "username" : "george", "created" : ISODate("2016-12-05T01:39:14.557Z"), "roles" : [ "user" ], "profileImageURL" : "modules/users/client/img/profile/default.png", "password" : "bDw1meXD0T3s96wIWPTXRofWD449a3bO/y5C27Kfsters0pX7P5eVWYeLJq7cJflcIWGUX5QV4fB1RpxmsfPEQ==", "email" : "george.moberly@gmail.com", "lastName" : "Moberly", "firstName" : "George", "__v" : 0 }
+
+# restart the app on the webservers
+
+export MONGO_PRIMARY=`cat cf/mongo_instances.txt | grep PrimaryReplicaNode00NodeInstanceGP2 | awk '{print $NF}'`
+
+for w in `cat cf/web_instances.txt | egrep "^WebServerGroup" | awk '{print $NF}'`
+do
+  echo $w
+  ssh -i /opt/ch/$KEY_NAME.pem ec2-user\@$w killall gulp
+  sleep 15
+  ssh -i /opt/ch/$KEY_NAME.pem ec2-user\@$w "export MONGOHQ_URL=mongodb://$MONGO_PRIMARY ; cd /home/ec2-user/mean ; npm start > /home/ec2-user/webapp.log 2>&1 &"
+  sleep 15
+  ssh -i /opt/ch/$KEY_NAME.pem ec2-user\@$w "tail -30 /home/ec2-user/webapp.log"
+done
