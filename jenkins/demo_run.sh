@@ -36,8 +36,8 @@ shift `expr $OPTIND - 1`
 
 # copy latest templates to S3 (the mongo one is too big to work as a local file)
 #
-aws s3 cp MongoDB-VPC.template s3://confighub-demos/MongoDB-VPC.template
-aws s3 cp VPC_AutoScaling_and_ElasticLoadBalancer.template s3://confighub-demos/VPC_AutoScaling_and_ElasticLoadBalancer.template
+aws s3 cp MongoDB-VPC.template s3://cc-cf-demo/MongoDB-VPC.template
+aws s3 cp VPC_AutoScaling_and_ElasticLoadBalancer.template s3://cc-cf-demo/VPC_AutoScaling_and_ElasticLoadBalancer.template
 
 if [ -d "cf" ]
 then
@@ -58,16 +58,16 @@ curl -i https://demo.confighub.com/rest/pull \
      -H "Client-Token: `cat /opt/ch/ch_token.txt`" \
      -H "Client-Version: v1.5" \
      -H "Application-Name: MEAN" \
-     -H "Pretty: true" > ch_inputs.json
+     -H "Pretty: true" > ch_inputs_mongo.json
 
 rm -f /tmp/inputs.env
-cat ch_inputs.json | perl -f input_vars.pl | tee /tmp/inputs.env
+cat ch_inputs_mongo.json | perl -f input_vars.pl | tee /tmp/inputs_mongo.env
 
-. /tmp/inputs.env
+. /tmp/inputs_mongo.env
 
 echo "Mongo Inputs from ConfigHub are:"
-cat /tmp/inputs.env
-rm -f /tmp/inputs.env
+cat /tmp/inputs_mongo.env
+#rm -f /tmp/inputs_mongo.env
 
 curl -i https://demo.confighub.com/rest/pull \
      -H "Context: SalesDemos;TEST;MEAN-AWS;CF-Web-us-east-1"                \
@@ -75,16 +75,16 @@ curl -i https://demo.confighub.com/rest/pull \
      -H "Client-Token: `cat /opt/ch/ch_token.txt`" \
      -H "Client-Version: v1.5" \
      -H "Application-Name: MEAN" \
-     -H "Pretty: true" > ch_inputs.json
+     -H "Pretty: true" > ch_inputs_web.json
 
-rm -f /tmp/inputs.env
-cat ch_inputs.json | perl -f input_vars.pl | tee /tmp/inputs.env
+rm -f /tmp/inputs_web.env
+cat ch_inputs_web.json | perl -f input_vars.pl | tee /tmp/inputs_web.env
 
-. /tmp/inputs.env
+. /tmp/inputs_web.env
 
 echo "Webserver Inputs from ConfigHub are:"
-cat /tmp/inputs.env
-rm -f /tmp/inputs.env
+cat /tmp/inputs_web.env
+#rm -f /tmp/inputs_web.env
 
 # run the mongo cluster (includes a VPN)
 #
@@ -123,7 +123,7 @@ then
   echo "No MongoCluster in CloudFormation - creating one"
   aws cloudformation create-stack --capabilities CAPABILITY_IAM \
   --stack-name $MONGO_STACK_NAME \
-  --template-url http://s3.amazonaws.com/confighub-demos/MongoDB-VPC.template \
+  --template-url http://s3.amazonaws.com/cc-cf-demo/MongoDB-VPC.template \
   --parameters ParameterKey=AvailabilityZone0,ParameterValue=$MONGO_AZ1 \
   ParameterKey=AvailabilityZone1,ParameterValue=$MONGO_AZ2 \
   ParameterKey=AvailabilityZone2,ParameterValue=$MONGO_AZ3 \
@@ -219,7 +219,7 @@ if [ "$WEB_STACK_ID" == "" ]
 then
   echo "No WebCluster in CloudFormation - creating one"
   aws cloudformation create-stack --capabilities CAPABILITY_IAM --stack-name $WEB_STACK_NAME \
-  --template-url http://s3.amazonaws.com/confighub-demos/VPC_AutoScaling_and_ElasticLoadBalancer.template \
+  --template-url http://s3.amazonaws.com/cc-cf-demo/VPC_AutoScaling_and_ElasticLoadBalancer.template \
   --parameters ParameterKey=AZs,ParameterValue=$MONGO_AZ1 \
   ParameterKey=InstanceCount,ParameterValue=$WEB_INSTANCE_COUNT \
   ParameterKey=InstanceType,ParameterValue=$WEB_INSTANCE_SIZE \

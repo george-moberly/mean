@@ -27,7 +27,13 @@ while(<>) {
   if (/MONGO_INST_SIZE/) {
   	$var = "MONGO_INST_SIZE";
   }
-  if (/MONGO_ACCESS_CIDR/) {
+  if (/MONGO_ACCESS_CIDR\"/) {
+    $line = <>;
+    $line = <>;
+    $line = <>;
+    $line = <>;
+  }
+  if (/MONGO_ACCESS_CIDR_2/) {
   	$var = "MONGO_ACCESS_CIDR";
   }
   if (/MONGO_SHARDS_PER_NODE/) {
