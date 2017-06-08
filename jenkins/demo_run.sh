@@ -196,10 +196,10 @@ curl -i https://demo.confighub.com/rest/push \
 
 # turn on Mongo internal auth and set up users.
 #
-#if [ "$CREATED_MONGO" == "yes" ]
-#then
+if [ "$CREATED_MONGO" == "yes" ]
+then
   . ./mongo_auth.sh
-#fi
+fi
 
 # add the ASG, ELB, and web instnances into the public subnet
 #
