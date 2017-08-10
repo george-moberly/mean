@@ -1,0 +1,28 @@
+HTTP/1.1 200 OK
+Date: Thu, 10 Aug 2017 21:47:05 GMT
+Content-Type: application/json
+Content-Length: 440
+Server: TomEE
+
+{
+  "generatedOn": "08/10/2017 21:47:05",
+  "account": "ConfigHub",
+  "repo": "ConfigHub",
+  "context": "SalesDemos;TEST;MEAN-AWS;CF-Web-us-east-1",
+  "files": {},
+  "properties": {
+    "WEB_INSTANCE_COUNT": {
+      "type": "Integer",
+      "val": "2"
+    },
+    "MONGO_ACCESS_CIDR_2": {
+      "val": "0.0.0.0/0"
+    },
+    "WEB_INSTANCE_SIZE": {
+      "val": "t2.medium"
+    },
+    "WEB_STACK_NAME": {
+      "val": "WebCluster"
+    }
+  }
+}

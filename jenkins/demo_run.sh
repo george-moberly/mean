@@ -27,7 +27,7 @@ yflag=off      # exit after the webserver deploy and before the app build on the
 # stage y = second stage, will detect Mongo done and then deploy WebServer then stop
 # stage z = third stage, will detect Mongo and WebServer out there, will run webapp build on endpoints. This is not a switch but a regular run of the command
 
-while getopts kwmf: opt
+while getopts kwmxyf: opt
 do
     case "$opt" in
       w)  wflag=on;;
