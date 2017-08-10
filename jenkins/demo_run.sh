@@ -15,20 +15,30 @@ echo "using key: $KEY_NAME"
 
 . /opt/ch/aws_creds.sh
 
-wflag=off
-mflag=off
-kflag=off
-filename=
+wflag=off      # delete the CF WebServer stack just before re-running that stack
+mflag=off      # deletes the CF Mongo and WebServer stacks up front
+kflag=off      # exits before any CF templates are run
+filename=      # not used
+xflag=off      # exit after the mongo auth
+yflag=off      # exit after the webserver deploy and before the app build on the endpoints
+
+# three build stages
+# stage x = first stage, run through Mongo deploy plus Mongo auth then stop
+# stage y = second stage, will detect Mongo done and then deploy WebServer then stop
+# stage z = third stage, will detect Mongo and WebServer out there, will run webapp build on endpoints. This is not a switch but a regular run of the command
+
 while getopts kwmf: opt
 do
     case "$opt" in
       w)  wflag=on;;
       k)  kflag=on;;
       m)  mflag=on;;
+      x)  xflag=on;;
+      y)  yflag=on;;
       f)  filename="$OPTARG";;
       \?)		# unknown flag
       	  echo >&2 \
-	  "usage: $0 [-k] [-w] [-m] [-f filename] [file ...]"
+	  "usage: $0 [-k] [-w] [-m] [-x] [-y] [-f filename] [file ...]"
 	  exit 1;;
     esac
 done
@@ -100,6 +110,7 @@ fi
 if [ $kflag == "on" ]
 then
   echo "-k is active. Killed the stacks and exiting now."
+  aws s3 rb --force s3://cc-cf-demo
   exit 0
 fi
 
@@ -202,6 +213,13 @@ then
   . ./mongo_auth.sh
 fi
 
+if [ $xflag == "on" ]
+then
+  echo "-x is active. Mongo deploy and auth are done. Exiting now."
+  aws s3 rb --force s3://cc-cf-demo
+  exit 0
+fi
+
 # add the ASG, ELB, and web instnances into the public subnet
 #
 if [ $wflag == "on" ]
@@ -253,6 +271,12 @@ echo "WebCluster: $WEB_STACK_ID" >> cf/cf_id.txt
 
 aws cloudformation describe-stacks --stack-name $WEB_STACK_NAME > cf/cf_web_cluster.json
 aws cloudformation describe-stacks --stack-name $MONGO_STACK_NAME > cf/cf_mongo_cluster.json
+
+if [ $yflag == "on" ]
+then
+  echo "-y is active. WebServer CF deploy is done. Exiting now."
+  exit 0
+fi
 
 # steps to configure the web servers
 # install mongo client
