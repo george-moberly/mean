@@ -1,11 +1,11 @@
 HTTP/1.1 200 OK
-Date: Thu, 10 Aug 2017 21:47:05 GMT
+Date: Thu, 10 Aug 2017 21:49:11 GMT
 Content-Type: application/json
 Content-Length: 440
 Server: TomEE
 
 {
-  "generatedOn": "08/10/2017 21:47:05",
+  "generatedOn": "08/10/2017 21:49:11",
   "account": "ConfigHub",
   "repo": "ConfigHub",
   "context": "SalesDemos;TEST;MEAN-AWS;CF-Web-us-east-1",
