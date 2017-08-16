@@ -43,9 +43,9 @@ sh -x ./demo_run.sh $SCRIPT_ARGS
         }
         success {
             echo 'This will run only if successful'
-            slackSend channel: '#ops-room',
-                  color: 'good',
-                  message: "The pipeline ${currentBuild.fullDisplayName} completed successfully."
+//            slackSend channel: '#ops-room',
+//                  color: 'good',
+//                  message: "The pipeline ${currentBuild.fullDisplayName} completed successfully."
         }
         failure {
             echo 'This will run only if failed'
