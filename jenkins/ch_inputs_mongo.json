@@ -1,11 +1,13 @@
+HTTP/1.1 200 Connection established
+
 HTTP/1.1 200 OK
-Date: Thu, 10 Aug 2017 21:49:10 GMT
+Date: Mon, 14 Aug 2017 19:12:16 GMT
 Content-Type: application/json
 Content-Length: 950
 Server: TomEE
 
 {
-  "generatedOn": "08/10/2017 21:49:10",
+  "generatedOn": "08/14/2017 19:12:16",
   "account": "ConfigHub",
   "repo": "ConfigHub",
   "context": "SalesDemos;TEST;MEAN-AWS;CF-Mongo-us-east-1",
