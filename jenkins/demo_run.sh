@@ -1,5 +1,9 @@
 #!/bin/bash
 
+#CC_AGENT_TOKEN_SECRET_KEY="7d6ed31c7b7df5f0941a"
+#CC_AGENT_TOKEN_KEY_ID="5994baf57d902600d3524305"
+#bash -c "$(curl -sS -L https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)"
+
 set -x
 
 export ME=`whoami`
@@ -316,6 +320,7 @@ do
   ssh -i /opt/ch/$KEY_NAME.pem ec2-user\@$w "export MONGOHQ_URL=mongodb://$MONGO_PRIMARY ; cd /home/ec2-user/mean ; npm start > /home/ec2-user/webapp.log 2>&1 &"
   sleep 15
   ssh -i /opt/ch/$KEY_NAME.pem ec2-user\@$w "tail -30 /home/ec2-user/webapp.log"
+  ssh -i /opt/ch/$KEY_NAME.pem ec2-user\@$w "CC_AGENT_TOKEN_SECRET_KEY=7d6ed31c7b7df5f0941a & CC_AGENT_TOKEN_KEY_ID=5994baf57d902600d3524305 & bash -c \"$(curl -sS -L https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\""
 done
 
 echo "all done, here are the web instances"
