@@ -1,8 +1,8 @@
 #!/bin/bash
 
-#CC_AGENT_TOKEN_SECRET_KEY="7d6ed31c7b7df5f0941a"
-#CC_AGENT_TOKEN_KEY_ID="5994baf57d902600d3524305"
-#bash -c "$(curl -sS -L https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)"
+# export CC_AGENT_TOKEN_SECRET_KEY="094c52ea929d9f36296c"
+# export CC_AGENT_TOKEN_KEY_ID="599605b55cb28f00d904c57c"
+# bash -c "$(curl -sS -L https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)"
 
 set -x
 

@@ -298,6 +298,10 @@
              "#!/bin/bash -xe\n",
              "yum update -y aws-cfn-bootstrap\n",
 
+             "export CC_AGENT_TOKEN_SECRET_KEY="094c52ea929d9f36296c\n",
+             "export CC_AGENT_TOKEN_KEY_ID="599605b55cb28f00d904c57c\n",
+             "bash -c \"$(curl -sS -L https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
+
              "/opt/aws/bin/cfn-init -v ",
              "         --stack ", { "Ref" : "AWS::StackName" },
              "         --resource LaunchConfig ",
