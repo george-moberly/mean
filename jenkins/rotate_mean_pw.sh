@@ -68,7 +68,7 @@ ssh -t -t -i /opt/ch/key.pem ec2-user\@$NAT ssh -t -t -i /opt/ch/key.pem ec2-use
 # mongo -u "mean" -p "mean" $PR0/mean-dev
 
 # push the Mongo user info to ConfigHub
-curl -i https://demo.confighub.com/rest/push \
+curl -k -i https://demo.confighub.com/rest/push \
      -H "Content-Type: application/json" \
      -H "Client-Token: `cat /opt/ch/ch_token.txt`" \
      -H "Client-Version: v1.5" \
