@@ -220,7 +220,7 @@ fi
 if [ $xflag == "on" ]
 then
   echo "-x is active. Mongo deploy and auth are done. Exiting now."
-  aws s3 rb --force s3://cc-cf-demo
+  #aws s3 rb --force s3://cc-cf-demo
   exit 0
 fi
 
@@ -261,7 +261,7 @@ aws cloudformation wait stack-create-complete --stack-name $WEB_STACK_NAME
 #    "StackId": "arn:aws:cloudformation:us-east-1:530342348278:stack/WebCluster/2084c760-9f33-11e6-8aa1-50d5ca632656"
 #}
 
-aws s3 rb --force s3://cc-cf-demo
+#aws s3 rb --force s3://cc-cf-demo
 
 aws cloudformation list-stack-resources --stack-name $WEB_STACK_NAME | tee cf/web_resources.json | perl -f get_instances.pl | tee cf/web_instances.txt
 
