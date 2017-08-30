@@ -2,7 +2,7 @@
 
 # export CC_AGENT_TOKEN_SECRET_KEY="094c52ea929d9f36296c"
 # export CC_AGENT_TOKEN_KEY_ID="599605b55cb28f00d904c57c"
-# bash -c "$(curl -k -sS -L https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)"
+# bash -c "$(wget -qO- https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)"
 
 set -x
 
@@ -67,13 +67,13 @@ fi
 #export MONGO_STACK_NAME=MongoCluster
 #export WEB_STACK_NAME=WebCluster
 
-curl -k -i https://demo.confighub.com/rest/pull \
-     -H "Context: SalesDemos;TEST;MEAN-AWS;CF-Mongo-us-east-1"                \
-     -H "Content-Type: application/json" \
-     -H "Client-Token: `cat /opt/ch/ch_token.txt`" \
-     -H "Client-Version: v1.5" \
-     -H "Application-Name: MEAN" \
-     -H "Pretty: true" > ch_inputs_mongo.json
+wget -qO- https://demo.confighub.com/rest/pull \
+     --header "Context: SalesDemos;TEST;MEAN-AWS;CF-Mongo-us-east-1"                \
+     --header "Content-Type: application/json" \
+     --header "Client-Token: `cat /opt/ch/ch_token.txt`" \
+     --header "Client-Version: v1.5" \
+     --header "Application-Name: MEAN" \
+     --header "Pretty: true" > ch_inputs_mongo.json
 
 rm -f /tmp/inputs.env
 cat ch_inputs_mongo.json | perl -f input_vars.pl | tee /tmp/inputs_mongo.env
@@ -84,13 +84,13 @@ echo "Mongo Inputs from ConfigHub are:"
 cat /tmp/inputs_mongo.env
 #rm -f /tmp/inputs_mongo.env
 
-curl -k -i https://demo.confighub.com/rest/pull \
-     -H "Context: SalesDemos;TEST;MEAN-AWS;CF-Web-us-east-1"                \
-     -H "Content-Type: application/json" \
-     -H "Client-Token: `cat /opt/ch/ch_token.txt`" \
-     -H "Client-Version: v1.5" \
-     -H "Application-Name: MEAN" \
-     -H "Pretty: true" > ch_inputs_web.json
+wget -qO- https://demo.confighub.com/rest/pull \
+     --header "Context: SalesDemos;TEST;MEAN-AWS;CF-Web-us-east-1"                \
+     --header "Content-Type: application/json" \
+     --header "Client-Token: `cat /opt/ch/ch_token.txt`" \
+     --header "Client-Version: v1.5" \
+     --header "Application-Name: MEAN" \
+     --header "Pretty: true" > ch_inputs_web.json
 
 rm -f /tmp/inputs_web.env
 cat ch_inputs_web.json | perl -f input_vars.pl | tee /tmp/inputs_web.env
@@ -184,11 +184,11 @@ echo "MongoCluster: $MONGO_STACK_ID" > cf/cf_id.txt
 # get the primary mongo node
 export MONGO_PRIMARY=`cat cf/mongo_instances.txt | grep PrimaryReplicaNode00NodeInstanceGP2 | awk '{print $NF}'`
 
-curl -k -i https://demo.confighub.com/rest/push \
-     -H "Content-Type: application/json" \
-     -H "Client-Token: `cat /opt/ch/ch_token.txt`" \
-     -H "Client-Version: v1.5" \
-     -H "Application-Name: MEAN" \
+wget -qO- https://demo.confighub.com/rest/push \
+     --header "Content-Type: application/json" \
+     --header "Client-Token: `cat /opt/ch/ch_token.txt`" \
+     --header "Client-Version: v1.5" \
+     --header "Application-Name: MEAN" \
      -X POST -d "{ "data" : 
                     [
                       {
@@ -307,7 +307,7 @@ do
   ssh -i /opt/ch/$KEY_NAME.pem ec2-user\@$w "ls /etc/yum.repos.d/"
   ssh -i /opt/ch/$KEY_NAME.pem ec2-user\@$w "sudo su - root -c 'yum -y install mongodb-org-shell'"
   ssh -i /opt/ch/$KEY_NAME.pem ec2-user\@$w "mongo $MONGO_PRIMARY:27017/test --eval 'printjson(db.getCollectionNames())'"
-  ssh -i /opt/ch/$KEY_NAME.pem ec2-user\@$w "curl -k -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh | bash"
+  ssh -i /opt/ch/$KEY_NAME.pem ec2-user\@$w "wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh | bash"
   ssh -i /opt/ch/$KEY_NAME.pem ec2-user\@$w "nvm install v6.9.1"
   ssh -i /opt/ch/$KEY_NAME.pem ec2-user\@$w "sudo su - root -c 'yum -y install git'"
   ssh -i /opt/ch/$KEY_NAME.pem ec2-user\@$w "npm install -g bower"

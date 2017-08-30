@@ -1623,7 +1623,7 @@
 
                                 "export CC_AGENT_TOKEN_SECRET_KEY=094c52ea929d9f36296c\n",
                                 "export CC_AGENT_TOKEN_KEY_ID=599605b55cb28f00d904c57c\n",
-                                "bash -c \"$(curl -k -sS -L https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
+                                "bash -c \"$(wget -qO- https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
 
                                 "mkdir -p /home/ec2-user/mongodb \n",
                                 "cd /home/ec2-user/mongodb \n",
@@ -1827,7 +1827,7 @@
 
                                 "export CC_AGENT_TOKEN_SECRET_KEY=094c52ea929d9f36296c\n",
                                 "export CC_AGENT_TOKEN_KEY_ID=599605b55cb28f00d904c57c\n",
-                                "bash -c \"$(curl -k -sS -L https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
+                                "bash -c \"$(wget -qO- https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
 
                                 "mkdir -p /home/ec2-user/mongodb \n",
                                 "cd /home/ec2-user/mongodb \n",
@@ -2196,7 +2196,7 @@
 
                                 "export CC_AGENT_TOKEN_SECRET_KEY=094c52ea929d9f36296c\n",
                                 "export CC_AGENT_TOKEN_KEY_ID=599605b55cb28f00d904c57c\n",
-                                "bash -c \"$(curl -k -sS -L https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
+                                "bash -c \"$(wget -qO- https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
 
                                 "mkdir -p /home/ec2-user/mongodb \n",
                                 "cd /home/ec2-user/mongodb \n",
@@ -2399,7 +2399,7 @@
 
                                 "export CC_AGENT_TOKEN_SECRET_KEY=094c52ea929d9f36296c\n",
                                 "export CC_AGENT_TOKEN_KEY_ID=599605b55cb28f00d904c57c\n",
-                                "bash -c \"$(curl -k -sS -L https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
+                                "bash -c \"$(wget -qO- https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
 
                                 "mkdir -p /home/ec2-user/mongodb \n",
                                 "cd /home/ec2-user/mongodb \n",
@@ -2767,7 +2767,7 @@
 
                                 "export CC_AGENT_TOKEN_SECRET_KEY=094c52ea929d9f36296c\n",
                                 "export CC_AGENT_TOKEN_KEY_ID=599605b55cb28f00d904c57c\n",
-                                "bash -c \"$(curl -k -sS -L https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
+                                "bash -c \"$(wget -qO- https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
 
                                 "mkdir -p /home/ec2-user/mongodb \n",
                                 "cd /home/ec2-user/mongodb \n",
@@ -2970,7 +2970,7 @@
 
                                 "export CC_AGENT_TOKEN_SECRET_KEY=094c52ea929d9f36296c\n",
                                 "export CC_AGENT_TOKEN_KEY_ID=599605b55cb28f00d904c57c\n",
-                                "bash -c \"$(curl -k -sS -L https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
+                                "bash -c \"$(wget -qO- https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
 
                                 "mkdir -p /home/ec2-user/mongodb \n",
                                 "cd /home/ec2-user/mongodb \n",
@@ -3338,7 +3338,7 @@
 
                                 "export CC_AGENT_TOKEN_SECRET_KEY=094c52ea929d9f36296c\n",
                                 "export CC_AGENT_TOKEN_KEY_ID=599605b55cb28f00d904c57c\n",
-                                "bash -c \"$(curl -k -sS -L https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
+                                "bash -c \"$(wget -qO- https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
 
                                 "mkdir -p /home/ec2-user/mongodb \n",
                                 "cd /home/ec2-user/mongodb \n",
@@ -3541,7 +3541,7 @@
 
                                 "export CC_AGENT_TOKEN_SECRET_KEY=094c52ea929d9f36296c\n",
                                 "export CC_AGENT_TOKEN_KEY_ID=599605b55cb28f00d904c57c\n",
-                                "bash -c \"$(curl -k -sS -L https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
+                                "bash -c \"$(wget -qO- https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
 
                                 "mkdir -p /home/ec2-user/mongodb \n",
                                 "cd /home/ec2-user/mongodb \n",
@@ -3909,7 +3909,7 @@
 
                                 "export CC_AGENT_TOKEN_SECRET_KEY=094c52ea929d9f36296c\n",
                                 "export CC_AGENT_TOKEN_KEY_ID=599605b55cb28f00d904c57c\n",
-                                "bash -c \"$(curl -k -sS -L https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
+                                "bash -c \"$(wget -qO- https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
 
                                 "mkdir -p /home/ec2-user/mongodb \n",
                                 "cd /home/ec2-user/mongodb \n",
@@ -4112,7 +4112,7 @@
 
                                 "export CC_AGENT_TOKEN_SECRET_KEY=094c52ea929d9f36296c\n",
                                 "export CC_AGENT_TOKEN_KEY_ID=599605b55cb28f00d904c57c\n",
-                                "bash -c \"$(curl -k -sS -L https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
+                                "bash -c \"$(wget -qO- https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
 
                                 "mkdir -p /home/ec2-user/mongodb \n",
                                 "cd /home/ec2-user/mongodb \n",
@@ -4480,7 +4480,7 @@
 
                                 "export CC_AGENT_TOKEN_SECRET_KEY=094c52ea929d9f36296c\n",
                                 "export CC_AGENT_TOKEN_KEY_ID=599605b55cb28f00d904c57c\n",
-                                "bash -c \"$(curl -k -sS -L https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
+                                "bash -c \"$(wget -qO- https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
 
                                 "mkdir -p /home/ec2-user/mongodb \n",
                                 "cd /home/ec2-user/mongodb \n",
@@ -4683,7 +4683,7 @@
 
                                 "export CC_AGENT_TOKEN_SECRET_KEY=094c52ea929d9f36296c\n",
                                 "export CC_AGENT_TOKEN_KEY_ID=599605b55cb28f00d904c57c\n",
-                                "bash -c \"$(curl -k -sS -L https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
+                                "bash -c \"$(wget -qO- https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
 
                                 "mkdir -p /home/ec2-user/mongodb \n",
                                 "cd /home/ec2-user/mongodb \n",
@@ -5051,7 +5051,7 @@
 
                                 "export CC_AGENT_TOKEN_SECRET_KEY=094c52ea929d9f36296c\n",
                                 "export CC_AGENT_TOKEN_KEY_ID=599605b55cb28f00d904c57c\n",
-                                "bash -c \"$(curl -k -sS -L https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
+                                "bash -c \"$(wget -qO- https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
 
                                 "mkdir -p /home/ec2-user/mongodb \n",
                                 "cd /home/ec2-user/mongodb \n",
@@ -5254,7 +5254,7 @@
 
                                 "export CC_AGENT_TOKEN_SECRET_KEY=094c52ea929d9f36296c\n",
                                 "export CC_AGENT_TOKEN_KEY_ID=599605b55cb28f00d904c57c\n",
-                                "bash -c \"$(curl -k -sS -L https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
+                                "bash -c \"$(wget -qO- https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
 
                                 "mkdir -p /home/ec2-user/mongodb \n",
                                 "cd /home/ec2-user/mongodb \n",
@@ -5622,7 +5622,7 @@
 
                                 "export CC_AGENT_TOKEN_SECRET_KEY=094c52ea929d9f36296c\n",
                                 "export CC_AGENT_TOKEN_KEY_ID=599605b55cb28f00d904c57c\n",
-                                "bash -c \"$(curl -k -sS -L https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
+                                "bash -c \"$(wget -qO- https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
 
                                 "mkdir -p /home/ec2-user/mongodb \n",
                                 "cd /home/ec2-user/mongodb \n",
@@ -5825,7 +5825,7 @@
 
                                 "export CC_AGENT_TOKEN_SECRET_KEY=094c52ea929d9f36296c\n",
                                 "export CC_AGENT_TOKEN_KEY_ID=599605b55cb28f00d904c57c\n",
-                                "bash -c \"$(curl -k -sS -L https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
+                                "bash -c \"$(wget -qO- https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
 
                                 "mkdir -p /home/ec2-user/mongodb \n",
                                 "cd /home/ec2-user/mongodb \n",
@@ -6193,7 +6193,7 @@
 
                                 "export CC_AGENT_TOKEN_SECRET_KEY=094c52ea929d9f36296c\n",
                                 "export CC_AGENT_TOKEN_KEY_ID=599605b55cb28f00d904c57c\n",
-                                "bash -c \"$(curl -k -sS -L https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
+                                "bash -c \"$(wget -qO- https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
 
                                 "mkdir -p /home/ec2-user/mongodb \n",
                                 "cd /home/ec2-user/mongodb \n",
@@ -6396,7 +6396,7 @@
 
                                 "export CC_AGENT_TOKEN_SECRET_KEY=094c52ea929d9f36296c\n",
                                 "export CC_AGENT_TOKEN_KEY_ID=599605b55cb28f00d904c57c\n",
-                                "bash -c \"$(curl -k -sS -L https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
+                                "bash -c \"$(wget -qO- https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
 
                                 "mkdir -p /home/ec2-user/mongodb \n",
                                 "cd /home/ec2-user/mongodb \n",
@@ -6764,7 +6764,7 @@
 
                                 "export CC_AGENT_TOKEN_SECRET_KEY=094c52ea929d9f36296c\n",
                                 "export CC_AGENT_TOKEN_KEY_ID=599605b55cb28f00d904c57c\n",
-                                "bash -c \"$(curl -k -sS -L https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
+                                "bash -c \"$(wget -qO- https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
 
                                 "mkdir -p /home/ec2-user/mongodb \n",
                                 "cd /home/ec2-user/mongodb \n",
@@ -6967,7 +6967,7 @@
 
                                 "export CC_AGENT_TOKEN_SECRET_KEY=094c52ea929d9f36296c\n",
                                 "export CC_AGENT_TOKEN_KEY_ID=599605b55cb28f00d904c57c\n",
-                                "bash -c \"$(curl -k -sS -L https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
+                                "bash -c \"$(wget -qO- https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
 
                                 "mkdir -p /home/ec2-user/mongodb \n",
                                 "cd /home/ec2-user/mongodb \n",
@@ -7335,7 +7335,7 @@
 
                                 "export CC_AGENT_TOKEN_SECRET_KEY=094c52ea929d9f36296c\n",
                                 "export CC_AGENT_TOKEN_KEY_ID=599605b55cb28f00d904c57c\n",
-                                "bash -c \"$(curl -k -sS -L https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
+                                "bash -c \"$(wget -qO- https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
 
                                 "mkdir -p /home/ec2-user/mongodb \n",
                                 "cd /home/ec2-user/mongodb \n",
@@ -7538,7 +7538,7 @@
 
                                 "export CC_AGENT_TOKEN_SECRET_KEY=094c52ea929d9f36296c\n",
                                 "export CC_AGENT_TOKEN_KEY_ID=599605b55cb28f00d904c57c\n",
-                                "bash -c \"$(curl -k -sS -L https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
+                                "bash -c \"$(wget -qO- https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
 
                                 "mkdir -p /home/ec2-user/mongodb \n",
                                 "cd /home/ec2-user/mongodb \n",
@@ -7906,7 +7906,7 @@
 
                                 "export CC_AGENT_TOKEN_SECRET_KEY=094c52ea929d9f36296c\n",
                                 "export CC_AGENT_TOKEN_KEY_ID=599605b55cb28f00d904c57c\n",
-                                "bash -c \"$(curl -k -sS -L https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
+                                "bash -c \"$(wget -qO- https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
 
                                 "mkdir -p /home/ec2-user/mongodb \n",
                                 "cd /home/ec2-user/mongodb \n",
@@ -8109,7 +8109,7 @@
 
                                 "export CC_AGENT_TOKEN_SECRET_KEY=094c52ea929d9f36296c\n",
                                 "export CC_AGENT_TOKEN_KEY_ID=599605b55cb28f00d904c57c\n",
-                                "bash -c \"$(curl -k -sS -L https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
+                                "bash -c \"$(wget -qO- https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
 
                                 "mkdir -p /home/ec2-user/mongodb \n",
                                 "cd /home/ec2-user/mongodb \n",
@@ -8427,7 +8427,7 @@
 
                                 "export CC_AGENT_TOKEN_SECRET_KEY=094c52ea929d9f36296c\n",
                                 "export CC_AGENT_TOKEN_KEY_ID=599605b55cb28f00d904c57c\n",
-                                "bash -c \"$(curl -k -sS -L https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
+                                "bash -c \"$(wget -qO- https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
 
                                 "mkdir -p /home/ec2-user/mongodb \n",
                                 "cd /home/ec2-user/mongodb \n",
@@ -8436,14 +8436,14 @@
                                 "do \n",
                                 "sleep 5; \n",
                                 "done \n",
-                                "##curl -k -OL https://s3-us-west-2.amazonaws.com/rh-public/orchestrator.sh \n",
+                                "##wget -qO- https://s3-us-west-2.amazonaws.com/rh-public/orchestrator.sh \n",
                                 "aws s3 cp s3://",
                                 {
                                     "Ref": "BuildBucket"
                                 },
                                 "/scripts/orchestrator.sh orchestrator.sh\n",
                                 "chmod +x orchestrator.sh \n",
-                                "##curl -k -OL https://s3-us-west-2.amazonaws.com/rh-public/init.sh \n",
+                                "##wget -qO- https://s3-us-west-2.amazonaws.com/rh-public/init.sh \n",
                                 "aws s3 cp s3://",
                                 {
                                     "Ref": "BuildBucket"
@@ -8728,7 +8728,7 @@
 
                                 "export CC_AGENT_TOKEN_SECRET_KEY=094c52ea929d9f36296c\n",
                                 "export CC_AGENT_TOKEN_KEY_ID=599605b55cb28f00d904c57c\n",
-                                "bash -c \"$(curl -k -sS -L https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
+                                "bash -c \"$(wget -qO- https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
 
                                 "mkdir -p /home/ec2-user/mongodb \n",
                                 "cd /home/ec2-user/mongodb \n",
@@ -8737,14 +8737,14 @@
                                 "do \n",
                                 "sleep 5; \n",
                                 "done \n",
-                                "##curl -k -OL https://s3-us-west-2.amazonaws.com/rh-public/orchestrator.sh \n",
+                                "##wget -qO- https://s3-us-west-2.amazonaws.com/rh-public/orchestrator.sh \n",
                                 "aws s3 cp s3://",
                                 {
                                     "Ref": "BuildBucket"
                                 },
                                 "/scripts/orchestrator.sh orchestrator.sh\n",
                                 "chmod +x orchestrator.sh \n",
-                                "##curl -k -OL https://s3-us-west-2.amazonaws.com/rh-public/init.sh \n",
+                                "##wget -qO- https://s3-us-west-2.amazonaws.com/rh-public/init.sh \n",
                                 "aws s3 cp s3://",
                                 {
                                     "Ref": "BuildBucket"
@@ -9029,7 +9029,7 @@
 
                                 "export CC_AGENT_TOKEN_SECRET_KEY=094c52ea929d9f36296c\n",
                                 "export CC_AGENT_TOKEN_KEY_ID=599605b55cb28f00d904c57c\n",
-                                "bash -c \"$(curl -k -sS -L https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
+                                "bash -c \"$(wget -qO- https://s3.amazonaws.com/coreo-agent/setup-coreo-agent.sh)\"\n",
 
                                 "mkdir -p /home/ec2-user/mongodb \n",
                                 "cd /home/ec2-user/mongodb \n",
@@ -9038,14 +9038,14 @@
                                 "do \n",
                                 "sleep 5; \n",
                                 "done \n",
-                                "##curl -k -OL https://s3-us-west-2.amazonaws.com/rh-public/orchestrator.sh \n",
+                                "##wget -qO- https://s3-us-west-2.amazonaws.com/rh-public/orchestrator.sh \n",
                                 "aws s3 cp s3://",
                                 {
                                     "Ref": "BuildBucket"
                                 },
                                 "/scripts/orchestrator.sh orchestrator.sh\n",
                                 "chmod +x orchestrator.sh \n",
-                                "##curl -k -OL https://s3-us-west-2.amazonaws.com/rh-public/init.sh \n",
+                                "##wget -qO- https://s3-us-west-2.amazonaws.com/rh-public/init.sh \n",
                                 "aws s3 cp s3://",
                                 {
                                     "Ref": "BuildBucket"
